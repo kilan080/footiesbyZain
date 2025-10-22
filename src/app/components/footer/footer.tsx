@@ -11,6 +11,7 @@ import Image from 'next/image';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import Slide from '@mui/material/Slide';
+import toast from 'react-hot-toast';
 
 
 
@@ -35,12 +36,12 @@ export default function Footer() {
     )
     .then((response) => {
       console.log('Email sent successfully:', response.status, response.text);
-      alert('Thank you! Your email was sent successfully.');
+      toast.success('Thank you! Your email was sent successfully.');
       setEmail('');
     })
-    .catch((error: any) => {
+    .catch((error: unknown) => {
       console.error('email sending failed:', error);
-      alert("oops something went wrong");
+      toast.error("oops something went wrong");
       
     })
     .finally(() => setLoading(false))
@@ -107,8 +108,9 @@ export default function Footer() {
             color="primary"
             type="submit"
             sx={{ height: 56, whiteSpace: 'nowrap' }}
+            disabled={loading}
           >
-            Send email
+            {loading ? "Sending..." : "Send email"}
           </Button>
         </Box>
 
