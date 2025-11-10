@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState } from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -12,65 +13,61 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import Slide from '@mui/material/Slide';
 import toast from 'react-hot-toast';
+import { useForm, SubmitHandler } from "react-hook-form";
 
-
+type Inputs = {
+  email: string;
+};
 
 export default function Footer() {
-  const [email, setEmail] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false)
-  
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<Inputs>({
+    shouldFocusError: false,
+  });
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
     setLoading(true);
 
     emailjs
-    .send(
-      'service_y6bcdi1',
-      'template_zyr3owi',
-      {
-        from_email: email,
-        to_email: 'umarzainab511@gmail.com',
-        message: `New subscription from ${email}`,
-      },
-      'aZJ361uwGwYH8wFKe'
-    )
-    .then((response) => {
-      console.log('Email sent successfully:', response.status, response.text);
-      toast.success('Thank you! Your email was sent successfully.');
-      setEmail('');
-    })
-    .catch((error: unknown) => {
-      console.error('email sending failed:', error);
-      toast.error("oops something went wrong");
-      
-    })
-    .finally(() => setLoading(false))
-  }
+      .send(
+        'service_y6bcdi1',
+        'template_zyr3owi',
+        {
+          from_email: data.email,
+          to_email: 'umarzainab511@gmail.com',
+          message: `New subscription from ${data.email}`,
+        },
+        'aZJ361uwGwYH8wFKe'
+      )
+      .then(() => {
+        toast.success('Thank you! Your email was sent successfully.');
+        reset();
+      })
+      .catch(() => {
+        toast.error("Oops, something went wrong.");
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
     <Container
       sx={{
         pt: { xs: 2, sm: 6 },
         pb: { xs: 8, sm: 10 },
-        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         gap: { xs: 3, sm: 4 },
       }}
     >
       <Slide in={true} direction='right' timeout={1200}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Image src='/image.png' alt='Footer Image' width={300} height={100} />  
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Image src='/image.png' alt='Footer Image' width={300} height={100} />
         </Box>
       </Slide>
+
       <Box
         sx={{
-          width: '100%',
           display: 'flex',
           flexDirection: { xs: 'column', sm: 'row' },
           justifyContent: 'space-between',
@@ -78,79 +75,53 @@ export default function Footer() {
           gap: 2,
         }}
       >
-        {/* Input + Button inline */}
-        
         <Box
           component="form"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           sx={{
             display: 'flex',
-            flexDirection: { xs: 'column', sm: 'column' },
+            flexDirection: 'column',
             alignItems: 'center',
             gap: 1,
-            '& > :not(style)': { m: 0 },
           }}
-          noValidate
-          autoComplete="off"
         >
-          
+          <Typography>SIGN UP FOR DISCOUNTS & UPDATES</Typography>
+
           <TextField
-            type='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            id="outlined-basic"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Invalid email address",
+              },
+            })}
             label="Email address"
-            variant="outlined"
+            error={!!errors.email}
+            helperText={errors.email?.message}
             sx={{ width: '30ch' }}
           />
+
           <Button
             variant="contained"
             color="primary"
             type="submit"
-            sx={{ height: 56, whiteSpace: 'nowrap' }}
+            sx={{ height: 56 }}
             disabled={loading}
           >
-            {loading ? "Sending..." : "Send email"}
+            {loading ? "Sending..." : "Send Email"}
           </Button>
         </Box>
 
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'column' },
-            gap: 1,
-            alignItems: 'center',
-            mt: { xs: 2, sm: 0 },
-          }}
-        >
-          <Link href="#" underline="hover" color="text.secondary">
-            About Us
-          </Link>
-          <Link href="#" underline="hover" color="text.secondary">
-            Contact Us
-          </Link>
-          <Link href="#" underline="hover" color="text.secondary">
-            Privacy Policy
-          </Link>
-          <Link href="#" underline="hover" color="text.secondary">
-            Terms of Service
-          </Link>
-          <Link href="#" underline="hover" color="text.secondary">
-            Umarzainab511@gmail.com
-          </Link>
-          
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'center' }}>
+          <Link href="#" underline="hover" color="text.secondary">About Us</Link>
+          <Link href="#" underline="hover" color="text.secondary">Contact Us</Link>
+          <Link href="#" underline="hover" color="text.secondary">Privacy Policy</Link>
+          <Link href="#" underline="hover" color="text.secondary">Terms of Service</Link>
+          <Link href="#" underline="hover" color="text.secondary">Umarzainab511@gmail.com</Link>
         </Box>
       </Box>
-      
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: 2, 
-          mt: 2, 
-        }}
-      >
+
+      <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
         <Link href="#" target="_blank" rel="noopener" color="inherit">
           <FacebookIcon sx={{ fontSize: 35, color: '#1877F2' }} />
         </Link>
@@ -158,15 +129,10 @@ export default function Footer() {
           <InstagramIcon sx={{ fontSize: 35, color: '#E4405F' }} />
         </Link>
       </Box>
-      <Box>
-        <Typography
-          variant="body2"
-          sx={{ color: 'text.secondary', textAlign: 'center' }}
-          mt={{ xs: 2, sm: 4 }}
-        >
-          &copy; {new Date().getFullYear()} Footies by Zayn. All rights reserved.
-        </Typography>
-      </Box>
+
+      <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'center' }} mt={4}>
+        &copy; {new Date().getFullYear()} Footies by Zayn. All rights reserved.
+      </Typography>
     </Container>
   );
 }

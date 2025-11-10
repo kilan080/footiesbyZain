@@ -14,6 +14,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Image from 'next/image';
 import Link from '@mui/material/Link';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { useCart } from "../../../cartContext/cartContext";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import CartDrawer from '../cartDrawer/cartDrawer';
+
 
 const pages = ['Men', 'Women', 'Testimonials', 'Contact'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -33,11 +37,14 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
+  const { toggleCart,cartCount } = useCart();
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
   return (
+    <>
     <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -110,6 +117,10 @@ function ResponsiveAppBar() {
           >
             <Image src="/image.png" alt="Logo" width={50} height={50} />
           </Typography>
+          <Box>
+            <ShoppingCartIcon onClick={toggleCart} sx={{ cursor: 'pointer' }} />
+            <span>{cartCount}</span>
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -140,6 +151,9 @@ function ResponsiveAppBar() {
         </Toolbar>
       </Container>
     </AppBar>
+
+    <CartDrawer />
+    </>
   );
 }
 export default ResponsiveAppBar;

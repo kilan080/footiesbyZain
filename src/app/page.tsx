@@ -1,6 +1,7 @@
 
 import Navbar from "./components/navbar/navbar";
 import Bigone from "./components/bigone/bigone";
+import Tabs from "./components/tabs/tabs";
 import Collection from "./components/collection/collection";
 import Testimonials from "./components/testimonials/testimonials";
 import Footer from "./components/footer/footer";
@@ -15,7 +16,8 @@ export default function Home() {
       <Navbar />
       <main>
         <Bigone />
-        <Collection />
+        <Tabs />
+        {/* <Collection /> */}
         <Testimonials />
         <Footer />
       </main>

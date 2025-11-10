@@ -4,6 +4,8 @@ import "./globals.css";
 import Providers from "./providers";
 import ThemeRegistry from "./themeRegistry";
 import EmotionProvider from "./emotionProvider";
+import { CartProvider } from "../cartContext/cartContext";
+import CartDrawer from "./components/cartDrawer/cartDrawer";
 
 const vollkorn = Vollkorn({
   subsets: ['latin'],
@@ -24,12 +26,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${vollkorn.variable} antialiased`}
-      >
-        <ThemeRegistry>
-          <EmotionProvider><Providers>{children}</Providers></EmotionProvider>
-        </ThemeRegistry>
+      <body className={`${vollkorn.variable} antialiased`}>
+        <CartProvider>
+          <ThemeRegistry>
+            <EmotionProvider>
+              <Providers>
+                {children}
+              </Providers>
+
+              <CartDrawer />
+
+            </EmotionProvider>
+          </ThemeRegistry>
+        </CartProvider>
       </body>
     </html>
   );
