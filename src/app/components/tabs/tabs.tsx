@@ -7,24 +7,23 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import CardContent  from '@mui/material/CardContent';
-import { isTemplateExpression } from 'typescript';
 import { useCart } from '../../../cartContext/cartContext';
 
 
 const Tabs = () => {
   const slippers = [
-    { id: 1, price: '#15,000', image: "/WhatsApp Image 2025-10-09 at 14.06.49_c3218faf.jpg", name: "Luxury Leather", category: "The Luxe Collection" },
-    { id: 2, price: '#15,000', image: "/IMG-20251008-WA0009.jpg", name: "Beach Vibes", category: "Mens Collection" },
-    { id: 3, price: '#15,000', image: "/IMG-20251008-WA0011.jpg", name: "Queen Slides", category: "Womens Collection" },
-    { id: 4, price: '#15,000', image: "/IMG-20251008-WA0009.jpg", name: "Comfy Casuals", category: "Casual Comfort" },
-    { id: 5, price: '#15,000', image: "/IMG-20251008-WA0010.jpg", name: "Elegant Evening", category: "The Luxe Collection" },
-    { id: 6, price: '#15,000', image: "/WhatsApp Image 2025-10-09 at 14.06.49_f9c6d81e.jpg", name: "Sporty Strides", category: "Mens Collection" },
-    { id: 7, price: '#15,000', image: "/IMG-20251008-WA0007.jpg", name: "Chic Comfort", category: "Womens Collection" },
-    { id: 8, price: '#15,000', image: "/IMG-20251008-WA0010.jpg", name: "Everyday Essentials", category: "Casual Comfort" },
-    { id: 9, price: '#15,000', image: "IMG-20251008-WA0011.jpg", name: "Premium Plush", category: "The Luxe Collection" },
-    { id: 10, price: '#20,000', image: "/IMG-20251008-WA0006.jpg", name: "Urban Explorer", category: "Mens Collection" },
-    { id: 11, price: '#20,000', image: "/IMG-20251008-WA0009.jpg", name: "Feminine Flair", category: "Womens Collection" },
-    { id: 12, price: '#20,000', image: "/IMG-20251008-WA0010.jpg", name: "Relaxed Retreat", category: "Casual Comfort" },
+    { id: 1, price: '15000', image: "/WhatsApp Image 2025-10-09 at 14.06.49_c3218faf.jpg", name: "Luxury Leather", category: "The Luxe Collection" },
+    { id: 2, price: '15000', image: "/IMG-20251008-WA0009.jpg", name: "Beach Vibes", category: "Mens Collection" },
+    { id: 3, price: '13000', image: "/IMG-20251008-WA0011.jpg", name: "Queen Slides", category: "Womens Collection" },
+    { id: 4, price: '15000', image: "/IMG-20251008-WA0009.jpg", name: "Comfy Casuals", category: "Casual Comfort" },
+    { id: 5, price: '8000', image: "/IMG-20251008-WA0010.jpg", name: "Elegant Evening", category: "The Luxe Collection" },
+    { id: 6, price: '18000', image: "/WhatsApp Image 2025-10-09 at 14.06.49_f9c6d81e.jpg", name: "Couple Strides", category: "Mens Collection" },
+    { id: 7, price: '8000', image: "/IMG-20251008-WA0007.jpg", name: "Chic Comfort", category: "Womens Collection" },
+    { id: 8, price: '15000', image: "/IMG-20251008-WA0010.jpg", name: "Everyday Essentials", category: "Casual Comfort" },
+    { id: 9, price: '13000', image: "/IMG-20251008-WA0011.jpg", name: "Premium Plush", category: "The Luxe Collection" },
+    { id: 10, price: '15000', image: "/IMG-20251008-WA0006.jpg", name: "Urban Explorer", category: "Mens Collection" },
+    { id: 11, price: '15000', image: "/IMG-20251008-WA0009.jpg", name: "Feminine Flair", category: "Womens Collection" },
+    { id: 12, price: '8000', image: "/IMG-20251008-WA0010.jpg", name: "Relaxed Retreat", category: "Casual Comfort" },
   ];
 
   const categories = [
@@ -35,6 +34,8 @@ const Tabs = () => {
     'Womens Collection',
   ];
   const { addToCart } = useCart();
+
+//   console.log(item);
 
   const [activeTab, setActiveTab] = React.useState('All');
 
@@ -71,11 +72,13 @@ const Tabs = () => {
         <Grid container spacing={3} justifyContent="center">
             {filteredItems.map((item) => (
             <Grid
-                item
+                // item
                 key={item.id}
-                xs={6}      // 1 item per row on mobile
-                sm={6}       // 2 per row on tablets
-                md={3}       // 4 per row on large screens
+                size={{
+                    xs: 6 ,     // 1 item per row on mobile
+                    sm:6 ,      // 2 per row on tablets
+                    md:3       // 4 per row on large screens 
+                }}
                 display="flex"
                 justifyContent="center"
             >
@@ -115,7 +118,7 @@ const Tabs = () => {
                                 backgroundColor: "#C59F68", 
                                 "&:hover": { backgroundColor: "#B08B59" }
                             }}
-                            onClick={() => addToCart(isTemplateExpression)}
+                            onClick={() => addToCart({ id: item.id, name: item.name, price: Number(item.price.toString().replace(/[^0-9]/g, "")), image: item.image, quantity: 1})}
                         >
                         Add to Cart
                         </Button>

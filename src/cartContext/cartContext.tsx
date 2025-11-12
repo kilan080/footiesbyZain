@@ -5,7 +5,7 @@ import React, { createContext, useContext, useState } from "react";
 type CartItem = {
   id: number;
   name: string;
-  price: string;
+  price: number;
   image: string;
   quantity: number;
 };
@@ -14,6 +14,7 @@ type CartContextType = {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: number) => void;
+  decreaseQuantity: (id: number) => void;
   clearCart: () => void;
   cartCount: number;
   isCartOpen: boolean;
@@ -50,11 +51,19 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsCartOpen((prev) => !prev);
   };
 
+  const decreaseQuantity = (id: number) => {
+    setCart(prev =>
+        prev
+        .map(i => (i.id === id ? { ...i, quantity: i.quantity - 1 } : i))
+        .filter(i => i.quantity > 0)
+    );
+};
+
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart, cartCount, isCartOpen, toggleCart }}
+      value={{ cart, addToCart, decreaseQuantity, removeFromCart, clearCart, cartCount, isCartOpen, toggleCart }}
     >
       {children}
     </CartContext.Provider>

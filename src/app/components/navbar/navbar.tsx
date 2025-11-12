@@ -117,10 +117,6 @@ function ResponsiveAppBar() {
           >
             <Image src="/image.png" alt="Logo" width={50} height={50} />
           </Typography>
-          <Box>
-            <ShoppingCartIcon onClick={toggleCart} sx={{ cursor: 'pointer' }} />
-            <span>{cartCount}</span>
-          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -132,7 +128,11 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          <Box>
+            <ShoppingCartIcon onClick={toggleCart} sx={{ cursor: 'pointer' }} />
+            <span>{cartCount}</span>
+          </Box>
+          {/* <Box sx={{ flexGrow: 0 }}>
             <Typography variant="body1" sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
                 <strong>Order Now:</strong>
                 <Link
@@ -147,7 +147,7 @@ function ResponsiveAppBar() {
                     08149964203
                 </Link>
             </Typography>
-        </Box>
+        </Box> */}
         </Toolbar>
       </Container>
     </AppBar>
