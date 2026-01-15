@@ -19,8 +19,9 @@ export default function Home() {
         <Tabs />
         {/* <Collection /> */}
         <Testimonials />
-        <Footer />
+         {/* <Footer /> */}
       </main>
     </>
   )
 }
+

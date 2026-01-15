@@ -14,6 +14,9 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import toast from 'react-hot-toast';
 import { useForm, SubmitHandler } from "react-hook-form";
 import emailjs from '@emailjs/browser';
+import Fade from '@mui/material/Fade';
+import Slide from '@mui/material/Slide';
+import axios from 'axios';
 import { on } from 'events';
 
 interface Inputs {
@@ -35,7 +38,10 @@ const ContactPage = () => {
   
     const [loading, setLoading] = useState<boolean>(false);
   
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+
+      await axios.post('http://localhost:4000/contacts', data);
+      
       setLoading(true);
   
       emailjs
@@ -72,103 +78,106 @@ const ContactPage = () => {
           mt: 4,
         }}
       >
-        
-        <Box
-          sx={{
-            flex: { xs: '1', lg: '0 0 35%' },
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          
-          <Box component="form" method='post' onSubmit={handleSubmit(onSubmit)} sx={{ mb: 4 }}>
-            <Typography variant="h6" mb={2} fontWeight={600}>
-              Send us a message
-            </Typography>
+        <Fade in={true} timeout={1200}>
+          <Box
+            sx={{
+              flex: { xs: '1', lg: '0 0 35%' },
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Slide direction='right' in={true} timeout={1200}>
+              <Box component="form" method='post' onSubmit={handleSubmit(onSubmit)}>
+                <Typography variant="h6" mb={2} fontWeight={600}>
+                  Send us a message
+                </Typography>
 
-            <TextField
-              label="Full Name"
-              {...register("name", { required: "Name is required" })}
-              error={!!errors.name}
-              helperText={errors.name?.message}
-              fullWidth
-              required
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Invalid email address",
-                },
-              })}
-              // onChange={handleChange}
-              label="Email address"
-              error={!!errors.email}
-              helperText={errors.email?.message}
-              fullWidth
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              label="Message"
-              multiline
-              rows={4}
-              {...register("message", { required: "Message is required" })}
-              error={!!errors.message}
-              helperText={errors.message?.message}
-              fullWidth
-              required
-              sx={{ mb: 3 }}
-            />
+                <TextField
+                  label="Full Name"
+                  {...register("name", { required: "Name is required" })}
+                  error={!!errors.name}
+                  helperText={errors.name?.message}
+                  fullWidth
+                  required
+                  sx={{ mb: 2 }}
+                />
+                <TextField
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Invalid email address",
+                    },
+                  })}
+                  label="Email address"
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
+                  fullWidth
+                  sx={{ mb: 2 }}
+                />
+                <TextField
+                  label="Message"
+                  multiline
+                  rows={4}
+                  {...register("message", { required: "Message is required" })}
+                  error={!!errors.message}
+                  helperText={errors.message?.message}
+                  fullWidth
+                  required
+                  sx={{ mb: 3 }}
+                />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{
-                bgcolor: '#4A0020',
-                '&:hover': { bgcolor: '#330016' },
-                py: 1.2,
-                textTransform: 'none',
-                fontWeight: 600,
-                borderRadius: 2,
-              }}
-            >
-              Send Message
-            </Button>
+                <Button
+                  type="submit"
+                  fullWidth
+                  disabled={loading}
+                  variant="contained"
+                  sx={{
+                    bgcolor: '#4A0020',
+                    '&:hover': { bgcolor: '#330016' },
+                    py: 1.2,
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    borderRadius: 2,
+                  }}
+                >
+                  {loading ? "Sending..." : "Send Message"}
+                </Button>
+              </Box>
+            </Slide>
+
+            <Slide direction='right' in={true} timeout={1200}>
+              <Box>
+                <Typography variant="h6" mb={2} fontWeight={600}>
+                  Get in touch
+                </Typography>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <WhatsAppIcon sx={{ color: '#25D366', mr: 1 }} />
+                  <Link
+                    href="https://wa.me/2348149964203?text=Hello%20I%20would%20like%20to%20place%20an%20order"
+                    underline="none"
+                    color="inherit"
+                    target="_blank"
+                    sx={{ '&:hover': { color: '#25D366' } }}
+                  >
+                    WhatsApp: +234 814 996 4203
+                  </Link>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <EmailIcon sx={{ color: '#555', mr: 1 }} />
+                  <Typography>Email: umarzainab511@gmail.com</Typography>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <LocationOnIcon sx={{ color: '#555', mr: 1 }} />
+                  <Typography>Ilorin, Kwara State, Nigeria</Typography>
+                </Box>
+              </Box>
+            </Slide>
           </Box>
-
-          
-          <Box>
-            <Typography variant="h6" mb={2} fontWeight={600}>
-              Get in touch
-            </Typography>
-
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <WhatsAppIcon sx={{ color: '#25D366', mr: 1 }} />
-              <Link
-                href="https://wa.me/2348149964203?text=Hello%20I%20would%20like%20to%20place%20an%20order"
-                underline="none"
-                color="inherit"
-                target="_blank"
-                sx={{ '&:hover': { color: '#25D366' } }}
-              >
-                WhatsApp: +234 814 996 4203
-              </Link>
-            </Box>
-
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <EmailIcon sx={{ color: '#555', mr: 1 }} />
-              <Typography>Email: umarzainab511@gmail.com</Typography>
-            </Box>
-
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <LocationOnIcon sx={{ color: '#555', mr: 1 }} />
-              <Typography>Ilorin, Kwara State, Nigeria</Typography>
-            </Box>
-          </Box>
-        </Box>
+        </Fade>
 
         <Box
           sx={{

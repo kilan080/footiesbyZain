@@ -11,6 +11,16 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { Slide, Fade } from '@mui/material';
 import { useColorScheme } from '@mui/material/styles';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
+
+interface Testimonial {
+  _id: string;
+  role?: string;
+  name: string;
+  message: string;
+}
 
 function stringToColor(string: string): string {
   let hash = 0;
@@ -26,62 +36,17 @@ function stringToColor(string: string): string {
 }
 
 function stringAvatar(name: string) {
+  const initials = name
+    .split(' ')
+    .map(word => word[0])
+    .slice(0, 2)
+    .join('');
+
   return {
-    sx: {
-      bgcolor: stringToColor(name),
-    },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    sx: { bgcolor: stringToColor(name) },
+    children: initials,
   };
 }
-
-
-const userTestimonials = [
-  {
-    avatar: <Avatar {...stringAvatar('Zainab Umar')} />,
-    name: 'Zainab Umar',
-    occupation: 'Trader',
-    testimonial:
-      `I love how adaptable these shoes are. From morning meetings to evening outings, they transition effortlessly. Comfortable, stylish, and perfect for my busy lifestyle.`
-  },
-  {
-    avatar: <Avatar {...stringAvatar('Blessing Stephen')} />,
-    name: 'Blessing Stephen',
-    occupation: 'Lawyer',
-    testimonial:
-      "One of the standout features of this product is the exceptional customer support. In my experience, the team behind this product has been quick to respond and incredibly helpful. It's reassuring to know that they stand firmly behind their product.",
-  },
-  {
-    avatar: <Avatar {...stringAvatar('Funmi Bakare')} />,
-    name: 'Funmi Bakare',
-    occupation: 'Banker',
-    testimonial:
-      'The level of simplicity and user-friendliness in this product has significantly simplified my life. I appreciate the creators for delivering a solution that not only meets but exceeds user expectations.',
-  },
-  {
-    avatar: <Avatar {...stringAvatar('Faridah Remilekun')} />,
-    name: 'Faridah Remilekun',
-    occupation: 'Student',
-    testimonial:
-      `The quality is in the details. The precision stitching, the perfectly balanced sole, the premium materials—everything shows they care about creating exceptional footwear.`,
-  },
-  {
-    avatar: <Avatar {...stringAvatar('Maridiyah Adebisi')} />,
-    name: 'Maridiyah Adebisi',
-    occupation: 'Corper',
-    testimonial:
-      `I've tried countless shoe brands, but these are different. The comfort and quality are unmatched—you can tell they genuinely care about how their products feel on your feet.`,
-  },
-  {
-    avatar: <Avatar {...stringAvatar('Daniel John')} />,
-    name: 'Daniel John',
-    occupation: 'Corper',
-    testimonial:
-      `The quality of this product exceeded my expectations. It's durable, well-designed, and built to last. Definitely worth the investment!`,
-  },
-];
-
-
-
 
 
 const logoStyle = {
@@ -91,8 +56,26 @@ const logoStyle = {
 
 export default function Testimonials() {
   const { mode, systemMode } = useColorScheme();
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const res = await axios.get("http://localhost:4000/testimonials");
+        setTestimonials(res.data);
+        console.log("testimonials data:", res.data);
+      } catch (error) {
+        console.error("Error fetching testimonials:", error);
+      } finally {
+        setLoading(false);
+      }
 
+    }
+    fetchTestimonials();
+  } , []);
+
+    console.log("testimonials state:", testimonials);
 
   return (
     <Container
@@ -118,7 +101,7 @@ export default function Testimonials() {
             component="h2"
             variant="h4"
             gutterBottom
-            sx={{ color: 'text.primary' }}
+            sx={{ color: 'text.primary', mt: 4 }}
           >
             Testimonials
           </Typography>
@@ -130,8 +113,8 @@ export default function Testimonials() {
         </Fade>
       </Box>
       <Grid container spacing={2}>
-        {userTestimonials.map((testimonial, index) => (
-          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index} sx={{ display: 'flex' }}>
+        {testimonials.map((testimonial, index) => (
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={testimonial._id} sx={{ display: 'flex' }}>
             <Slide direction='up' in={true} timeout={2000}>
               <Card
                 variant="outlined"
@@ -149,7 +132,7 @@ export default function Testimonials() {
                       gutterBottom
                       sx={{ color: 'text.secondary' }}
                     >
-                      {testimonial.testimonial}
+                      {testimonial.message}
                     </Typography>
                   </Fade>
                 </CardContent>
@@ -161,9 +144,9 @@ export default function Testimonials() {
                   }}
                 >
                   <CardHeader
-                    avatar={testimonial.avatar}
+                    avatar={<Avatar {...stringAvatar(testimonial.name)} />}
                     title={testimonial.name}
-                    subheader={testimonial.occupation}
+                    subheader={testimonial.role}
                   />
                   
                 </Box>
