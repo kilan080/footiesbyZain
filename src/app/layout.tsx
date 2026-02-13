@@ -6,8 +6,8 @@ import ThemeRegistry from "./themeRegistry";
 import EmotionProvider from "./emotionProvider";
 import { CartProvider } from "../cartContext/cartContext";
 import CartDrawer from "./components/cartDrawer/cartDrawer";
-import Navbar from "./components/navbar/navbar";  
-import Footer from "./components/footer/footer";
+// import Navbar from "./components/navbar/navbar";  
+// import Footer from "./components/footer/footer";
 
 const vollkorn = Vollkorn({
   subsets: ['latin'],
@@ -33,13 +33,12 @@ export default function RootLayout({
           <ThemeRegistry>
             <EmotionProvider>
               <Providers>
-                <Navbar />
+                {/* <Navbar /> */}
                   {children}
-                <Footer />
+                {/* <Footer /> */}
               </Providers>
 
               <CartDrawer />
-
             </EmotionProvider>
           </ThemeRegistry>
         </CartProvider>

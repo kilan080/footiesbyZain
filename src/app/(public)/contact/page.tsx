@@ -13,11 +13,9 @@ import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import toast from 'react-hot-toast';
 import { useForm, SubmitHandler } from "react-hook-form";
-import emailjs from '@emailjs/browser';
 import Fade from '@mui/material/Fade';
 import Slide from '@mui/material/Slide';
 import axios from 'axios';
-import { on } from 'events';
 
 interface Inputs {
   email: string;
@@ -38,34 +36,31 @@ const ContactPage = () => {
   
     const [loading, setLoading] = useState<boolean>(false);
   
-    const onSubmit: SubmitHandler<Inputs> = async (data) => {
-
-      await axios.post('http://localhost:4000/contacts', data);
-      
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
       setLoading(true);
-  
-      emailjs
-        .send(
-          'service_y6bcdi1',
-          'template_zyr3owi',
-          {
-            from_name: data.name,
-            to_email: 'umarzainab511@gmail.com',
-            from_email: data.email,
-            message: data.message,
-          },
-          'aZJ361uwGwYH8wFKe'
-        )
-        .then(() => {
-          toast.success('Thank you! Your email was sent successfully.');
-          console.log(data);
-          reset();
-        })
-        .catch(() => {
-          toast.error("Oops, something went wrong.");
-        })
-        .finally(() => setLoading(false));
-    };
+
+      const response = await axios.post(
+        'http://localhost:4000/contacts',
+        data
+      );
+
+      toast.success(response.data.message);
+      reset();
+
+    } catch (error: any) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Network error");
+      }
+      console.error(error);
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <Box sx={{ maxWidth: '1300px', mx: 'auto', px: { xs: 2, sm: 3, md: 6 }, py: 8 }}>
