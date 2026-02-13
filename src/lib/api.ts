@@ -1,10 +1,12 @@
-const BASE_URL = "https://footies-backend.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const fetchWithAuth = async (
   endpoint: string,
   options: RequestInit = {}
 ) => {
   const token = localStorage.getItem("adminToken");
+  // const url = `${BASE_URL}${endpoint}`;
+  // console.log(" Fetching URL:", url);
 
   const response = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,

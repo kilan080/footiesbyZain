@@ -22,7 +22,7 @@ export default function EditProductPage() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const data = await fetchWithAuth(`/admin//products/${id}`);
+        const data = await fetchWithAuth(`/admin/products/${id}`);
         console.log('All products:', data);
         const product = data.product;
 
