@@ -147,7 +147,7 @@ export default function ProductsPage() {
                   </TableHead>
 
                   <TableBody>
-                    {products.map((product: any) => (
+                    {products.map((product: Product) => (
                       <TableRow key={product._id}>
                         <TableCell>{product.name}</TableCell>
                         <TableCell>₦{product.price}</TableCell>
@@ -155,7 +155,7 @@ export default function ProductsPage() {
                           <IconButton color="primary" component={Link} href={`/dashboard/products/${product._id}`} >
                             <EditIcon />
                           </IconButton>
-                          <IconButton onClick={() => { setSelectedProduct(product); setOpenDialog(true); }} color="error">
+                          <IconButton  onClick={() => { setSelectedProduct(product); setOpenDialog(true); handleDelete(product._id) }} color="error">
                             <DeleteIcon />
                           </IconButton>
                         </TableCell>

@@ -9,8 +9,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { Slide, Fade } from '@mui/material';
-import { useColorScheme } from '@mui/material/styles';
+import { Slide, Fade, CircularProgress } from '@mui/material';
+// import { useColorScheme } from '@mui/material/styles';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -49,13 +49,13 @@ function stringAvatar(name: string) {
 }
 
 
-const logoStyle = {
-  width: '64px',
-  opacity: 0.3,
-};
+// const logoStyle = {
+//   width: '64px',
+//   opacity: 0.3,
+// };
 
 export default function Testimonials() {
-  const { mode, systemMode } = useColorScheme();
+  // const { mode, systemMode } = useColorScheme();
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -76,6 +76,10 @@ export default function Testimonials() {
   } , []);
 
     console.log("testimonials state:", testimonials);
+
+    if(loading) {
+      return <CircularProgress />
+    }
 
   return (
     <Container
@@ -113,7 +117,7 @@ export default function Testimonials() {
         </Fade>
       </Box>
       <Grid container spacing={2}>
-        {testimonials.map((testimonial, index) => (
+        {testimonials.map((testimonial) => (
           <Grid size={{ xs: 12, sm: 6, md: 4 }} key={testimonial._id} sx={{ display: 'flex' }}>
             <Slide direction='up' in={true} timeout={2000}>
               <Card

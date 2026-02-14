@@ -47,11 +47,15 @@ const LoginPage = () => {
 
         // Redirect to dashboard
         router.push("/dashboard");
-        } catch (err: any) {
-        setError(err.message);
-        } finally {
-        setLoading(false);
+        } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unexpected error occurred');
         }
+      } finally {
+        setLoading(false);
+      }
     };
 
   return (

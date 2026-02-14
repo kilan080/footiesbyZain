@@ -24,11 +24,11 @@ interface Inputs {
 }
 
 const ContactPage = () => {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+  // const [form, setForm] = useState({
+  //   name: '',
+  //   email: '',
+  //   message: '',
+  // });
 
    const { register, handleSubmit, formState: { errors }, reset } = useForm<Inputs>({
       shouldFocusError: false,
@@ -48,14 +48,18 @@ const ContactPage = () => {
       toast.success(response.data.message);
       reset();
 
-    } catch (error: any) {
-      if (error.response) {
-        alert(error.response.data.message);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          alert(error.response.data.message);
+        } else {
+          alert("Network error");
+        }
+        console.error(error);
       } else {
-        alert("Network error");
+        alert("An unexpected error occurred");
+        console.error(error);
       }
-      console.error(error);
-
     } finally {
       setLoading(false);
     }
