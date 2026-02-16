@@ -32,6 +32,7 @@ type Product = {
   _id: string;
   name: string;
   price: number;
+  images: string[];
 }
 
 export default function ProductsPage() {
@@ -60,24 +61,6 @@ export default function ProductsPage() {
 
     fetchProducts();
   }, []);
-
-
-    const handleDelete = async (id: string) => {
-      const confirmDelete = window.confirm("Are you sure you want to delete this product?");
-
-      if (!confirmDelete) return;
-
-      try {
-        await fetchWithAuth(`/admin/products/${id}`, {
-          method: "DELETE",
-        });
-
-        setProducts((prev) => prev.filter((product) => product._id !== id));
-
-      } catch (error) {
-        console.error("Delete failed", error);
-      }
-    };
 
   const confirmDelete = async () => {
     if (!selectedProduct) return;
@@ -140,6 +123,7 @@ export default function ProductsPage() {
               <Table>
                   <TableHead>
                     <TableRow>
+                      <TableCell><strong>Image</strong></TableCell>
                       <TableCell><strong>Name</strong></TableCell>
                       <TableCell><strong>Price</strong></TableCell>
                       <TableCell><strong>Actions</strong></TableCell>
@@ -148,20 +132,58 @@ export default function ProductsPage() {
 
                   <TableBody>
                     {products.map((product: Product) => (
-                      <TableRow key={product._id}>
-                        <TableCell>{product.name}</TableCell>
-                        <TableCell>₦{product.price}</TableCell>
+                      <TableRow key={product._id} hover>
+                        
+                        {/* Image Cell */}
                         <TableCell>
-                          <IconButton color="primary" component={Link} href={`/dashboard/products/${product._id}`} >
+                          <Box
+                            sx={{
+                              width: 50,
+                              height: 50,
+                              borderRadius: 1,
+                              overflow: "hidden",
+                              backgroundColor: "#f5f5f5",
+                            }}
+                          >
+                            <Box
+                              component="img"
+                              src={product.images?.[0]}
+                              alt={product.name}
+                              sx={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              }}
+                            />
+                          </Box>
+                        </TableCell>
+                        <TableCell>
+                          {product.name}
+                        </TableCell>
+                        <TableCell>
+                          ₦{product.price}
+                        </TableCell>
+                        <TableCell>
+                          <IconButton
+                            color="primary"
+                            component={Link}
+                            href={`/dashboard/products/${product._id}`}
+                          >
                             <EditIcon />
                           </IconButton>
-                          <IconButton  onClick={() => { setSelectedProduct(product); setOpenDialog(true); handleDelete(product._id) }} color="error">
+                          <IconButton
+                            onClick={() => {
+                              setSelectedProduct(product);
+                              setOpenDialog(true);
+                            }}
+                            color="error"
+                          >
                             <DeleteIcon />
                           </IconButton>
                         </TableCell>
                       </TableRow>
                     ))}
-                </TableBody>
+                  </TableBody>
               </Table>
             </TableContainer>
           )}
@@ -185,7 +207,7 @@ export default function ProductsPage() {
           autoHideDuration={3000}
           onClose={() => setSnackbarOpen(false)}
         >
-          <Alert severity="success" variant="filled">
+          <Alert sx={{ alignContent: 'center'}} severity="success" variant="filled">
             Product deleted successfully
           </Alert>
         </Snackbar>
