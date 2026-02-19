@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import Card from "@mui/material/Card";
@@ -8,13 +7,24 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import {CircularProgress} from "@mui/material"
+import { CircularProgress } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import { useCart } from "../../../cartContext/cartContext";
 
+// Define the Product interface
+interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  category: string;
+  images: string[];
+  description?: string;
+  stock?: number;
+}
+
 const Tabs = () => {
   const { addToCart } = useCart();
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]); // Fixed: Changed from any[] to Product[]
   const [loading, setLoading] = useState(true);
 
   const categories = ["All", "slides", "shoes"];
@@ -46,14 +56,15 @@ const Tabs = () => {
       : products.filter((item) => item.category === activeTab);
 
     if (loading) {
-        return (
-        <CircularProgress />
-        );
+      return (
+        <Box sx={{ display: "flex", justifyContent: "center", py: 10 }}>
+          <CircularProgress />
+        </Box>
+      );
     }
 
   return (
     <>
-      
       <Box
         sx={{
           display: "flex",
@@ -143,7 +154,7 @@ const Tabs = () => {
                       }}
                       onClick={() =>
                         addToCart({
-                          id: item._id,
+                          id: Number(item._id),
                           name: item.name,
                           price: item.price,
                           image: item.images?.[0],

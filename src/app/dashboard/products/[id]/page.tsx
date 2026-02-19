@@ -12,6 +12,7 @@ import {
   Paper,
 } from "@mui/material";
 import { fetchWithAuth } from "@/lib/api";
+import { ChangeEvent, FormEvent } from 'react';
 
 export default function EditProductPage() {
   const { id } = useParams();
@@ -53,11 +54,11 @@ export default function EditProductPage() {
     fetchProduct();
   }, [id]);
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleUpdate = async (e: any) => {
+  const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {

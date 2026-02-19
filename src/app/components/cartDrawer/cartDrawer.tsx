@@ -6,6 +6,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import Image from "next/image";
 import RemoveIcon from "@mui/icons-material/Remove";
 // import Image from "next/image";
 import { useCart } from "@/cartContext/cartContext";
@@ -29,7 +30,7 @@ const CartDrawer = () => {
         <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
           {cart.map(item => (
             <Box key={item.id} sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-              <img src={item.image} alt={item.name} width={70} height={70} style={{ borderRadius: 6 }} />
+              <Image src={item.image} alt={item.name} width={70} height={70} style={{ borderRadius: 6 }} />
 
               <Box sx={{ ml: 2, flexGrow: 1 }}>
                     <Typography sx={{mt: 1}} fontSize={14}>{item.name}</Typography>
