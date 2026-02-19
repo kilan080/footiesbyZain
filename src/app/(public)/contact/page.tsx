@@ -41,7 +41,7 @@ const ContactPage = () => {
       setLoading(true);
 
       const response = await axios.post(
-        'http://localhost:4000/contacts',
+        'http://footies-backend.vercel.app/contacts',
         data
       );
 
