@@ -93,7 +93,7 @@ const FullScreenSlider: React.FC<ImageSliderProps> = ({
                 objectFit: 'cover',
                 objectPosition: 'center',
               }}
-              quality={95}
+              quality={75}
               priority={index === 0}
             />
           </Box>

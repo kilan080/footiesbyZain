@@ -132,8 +132,8 @@ const ContactPage = () => {
                   disabled={loading}
                   variant="contained"
                   sx={{
-                    bgcolor: '#4A0020',
-                    '&:hover': { bgcolor: '#330016' },
+                    bgcolor: '#1976d2',
+                    '&:hover': { bgcolor: '#1565c0' },
                     py: 1.2,
                     textTransform: 'none',
                     fontWeight: 600,

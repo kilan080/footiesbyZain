@@ -122,7 +122,7 @@ export default function EditProductPage() {
             required
           >
             <MenuItem value="slides">Slides</MenuItem>
-            <MenuItem value="sneakers">Sneakers</MenuItem>
+            <MenuItem value="sneakers">Shoes</MenuItem>
           </TextField>
 
           <TextField

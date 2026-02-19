@@ -31,6 +31,7 @@ import Link from "next/link";
 type Product = {
   _id: string;
   name: string;
+  category: string;
   price: number;
   images: string[];
 }
@@ -125,6 +126,7 @@ export default function ProductsPage() {
                     <TableRow>
                       <TableCell><strong>Image</strong></TableCell>
                       <TableCell><strong>Name</strong></TableCell>
+                      <TableCell><strong>Category</strong></TableCell>
                       <TableCell><strong>Price</strong></TableCell>
                       <TableCell><strong>Actions</strong></TableCell>
                     </TableRow>
@@ -159,6 +161,9 @@ export default function ProductsPage() {
                         </TableCell>
                         <TableCell>
                           {product.name}
+                        </TableCell>
+                        <TableCell>
+                          {product.category}
                         </TableCell>
                         <TableCell>
                           ₦{product.price}

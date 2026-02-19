@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import Image from "next/image";
+// import Image from "next/image";
 import { useCart } from "@/cartContext/cartContext";
 
 const CartDrawer = () => {
@@ -29,7 +29,7 @@ const CartDrawer = () => {
         <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
           {cart.map(item => (
             <Box key={item.id} sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-              <Image src={item.image} alt={item.name} width={70} height={70} style={{ borderRadius: 6 }} />
+              <img src={item.image} alt={item.name} width={70} height={70} style={{ borderRadius: 6 }} />
 
               <Box sx={{ ml: 2, flexGrow: 1 }}>
                     <Typography sx={{mt: 1}} fontSize={14}>{item.name}</Typography>
@@ -53,15 +53,15 @@ const CartDrawer = () => {
         <Box sx={{ mt: 2, borderTop: "1px solid #ddd", pt: 2 }}>
           <Typography fontWeight={600}>Subtotal: ₦{subtotal.toLocaleString()}</Typography>
 
-          <Button fullWidth sx={{ mt: 2, bgcolor: "#C59F68", color: "white", py: 1.3 }}>
+          <Button fullWidth sx={{ mt: 2, bgcolor: "#1976d2", '&:hover': { bgcolor: '#1565c0' }, color: "white", py: 1.3 }}>
             Checkout
           </Button>
 
-          <Button onClick={toggleCart} sx={{ mt: 1, color: "#C59F68" }} fullWidth>
+          <Button onClick={toggleCart} sx={{ mt: 1,  color: "#1565c0" }} fullWidth>
             Continue shopping
           </Button>
 
-          <Button onClick={clearCart} sx={{ mt: 1, textTransform: "none", fontSize: 14, color: 'red' }} fullWidth>
+          <Button onClick={clearCart} sx={{ mt: 1,  fontSize: 14, color: 'red' }} fullWidth>
             Clear cart
           </Button>
         </Box>

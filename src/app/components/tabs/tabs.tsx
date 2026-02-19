@@ -1,134 +1,164 @@
-'use client';
-import { Box } from '@mui/system'
-import React from 'react'
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import CardContent  from '@mui/material/CardContent';
-import { useCart } from '../../../cartContext/cartContext';
+"use client";
 
+import React, { useEffect, useState } from "react";
+import { Box } from "@mui/system";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import Link from "next/link";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import {CircularProgress} from "@mui/material"
+import CardContent from "@mui/material/CardContent";
+import { useCart } from "../../../cartContext/cartContext";
 
 const Tabs = () => {
-  const slippers = [
-    { id: 1, price: '15000', image: "/WhatsApp Image 2025-10-09 at 14.06.49_c3218faf.jpg", name: "Luxury Leather", category: "The Luxe Collection" },
-    { id: 2, price: '15000', image: "/IMG-20251008-WA0009.jpg", name: "Beach Vibes", category: "Mens Collection" },
-    { id: 3, price: '13000', image: "/IMG-20251008-WA0011.jpg", name: "Queen Slides", category: "Womens Collection" },
-    { id: 4, price: '15000', image: "/IMG-20251008-WA0009.jpg", name: "Comfy Casuals", category: "Casual Comfort" },
-    { id: 5, price: '8000', image: "/IMG-20251008-WA0010.jpg", name: "Elegant Evening", category: "The Luxe Collection" },
-    { id: 6, price: '18000', image: "/WhatsApp Image 2025-10-09 at 14.06.49_f9c6d81e.jpg", name: "Couple Strides", category: "Mens Collection" },
-    { id: 7, price: '8000', image: "/IMG-20251008-WA0007.jpg", name: "Chic Comfort", category: "Womens Collection" },
-    { id: 8, price: '15000', image: "/IMG-20251008-WA0010.jpg", name: "Everyday Essentials", category: "Casual Comfort" },
-    { id: 9, price: '13000', image: "/IMG-20251008-WA0011.jpg", name: "Premium Plush", category: "The Luxe Collection" },
-    { id: 10, price: '15000', image: "/IMG-20251008-WA0006.jpg", name: "Urban Explorer", category: "Mens Collection" },
-    { id: 11, price: '15000', image: "/IMG-20251008-WA0009.jpg", name: "Feminine Flair", category: "Womens Collection" },
-    { id: 12, price: '8000', image: "/IMG-20251008-WA0010.jpg", name: "Relaxed Retreat", category: "Casual Comfort" },
-  ];
-
-  const categories = [
-    'All',
-    'The Luxe Collection',
-    'Casual Comfort',
-    'Mens Collection',
-    'Womens Collection',
-  ];
   const { addToCart } = useCart();
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-//   console.log(item);
+  const categories = ["All", "slides", "shoes"];
+  const [activeTab, setActiveTab] = useState("All");
 
-  const [activeTab, setActiveTab] = React.useState('All');
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(
+          "https://footies-backend.vercel.app/products"
+        );
+
+        const data = await res.json();
+
+        setProducts(data.products);
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const filteredItems =
-    activeTab === 'All'
-      ? slippers
-      : slippers.filter((item) => item.category === activeTab);
+    activeTab === "All"
+      ? products
+      : products.filter((item) => item.category === activeTab);
+
+    if (loading) {
+        return (
+        <CircularProgress />
+        );
+    }
 
   return (
     <>
+      
       <Box
-           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            width: '100%',
-            height: '59px',
-            backgroundColor: '#f5f5f5',
-            gap: { xs: 2, sm: 3, md: 4, lg: 6 }
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          width: "100%",
+          height: "59px",
+          backgroundColor: "#f5f5f5",
+          gap: { xs: 2, sm: 3, md: 4, lg: 6 },
+          alignItems: "center",
+        }}
+      >
+        {categories.map((category) => (
+          <Button
+            key={category}
+            onClick={() => setActiveTab(category)}
+            sx={{
+              color: "black",
+              textTransform: "none",
+              border: "none",
+              borderBottom:
+                activeTab === category ? "2px solid black" : "none",
             }}
-        >
-            {categories.map((category) => (
-            <Button
-                key={category}
-                onClick={() => setActiveTab(category)}
-                variant={activeTab === category ? "outlined" : "outlined"}
-                sx={{ color: 'black', textTransform: "none", border: 'none', borderBottom: activeTab === category ? '2px solid black' : 'none' }}
-
-            >
-                {category}
-            </Button>
-            ))}
+          >
+            {category}
+          </Button>
+        ))}
       </Box>
-      <Box sx={{ mt: 4, maxWidth: '1200px', mx: 'auto', px: 2 }}>
+
+      <Box sx={{ mt: 4, maxWidth: "1200px", mx: "auto", px: 1 }}>
         <Grid container spacing={3} justifyContent="center">
-            {filteredItems.map((item) => (
+          {filteredItems.map((item) => (
             <Grid
-                // item
-                key={item.id}
-                size={{
-                    xs: 6 ,     // 1 item per row on mobile
-                    sm:6 ,      // 2 per row on tablets
-                    md:3       // 4 per row on large screens 
-                }}
-                display="flex"
-                justifyContent="center"
+              key={item._id}
+              size={{
+                xs: 6,
+                sm: 6,
+                md: 3,
+              }}
+              display="flex"
+              justifyContent="center"
             >
-                <Card
-                    sx={{
-                        width: 260,
-                        borderRadius: 3,
-                        boxShadow: 3,
-                        textAlign: "flexStart",
-                        transition: "transform 0.3s ease",
-                        "&:hover": { transform: "scale(1.03)" },
-                    }}
+              <Card
+                  sx={{
+                    width: 260,
+                      height: 350,  
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      borderRadius: 3,
+                      boxShadow: 3,
+                      transition: "transform 0.3s ease",
+                      "&:hover": { transform: "scale(1.03)" },
+                  }}
                 >
+                  <Link href={`/products/${item._id}`} style={{ textDecoration: "none" }}>
                     <CardMedia
-                        component="img"
-                        height="200"
-                        loading='lazy'
-                        image={item.image}
-                        alt={item.name}
-                        style={{ objectFit: "cover" }}
+                      component="img"
+                      height="180"
+                      loading="lazy"
+                      image={item.images?.[0]}
+                      alt={item.name}
+                      sx={{ objectFit: "cover" , height: "190px"}}
                     />
-                    <CardContent sx={{background: 'inherit'}}>
-                        <Typography variant="h6" fontWeight={600}>
-                            {item.name}
-                        </Typography>
-                        <Typography variant="body1" color="text.secondary" sx={{ mt: 0.5 }}>
-                            {item.price}
-                        </Typography>
+                  </Link>
+                  <CardContent sx={{marginTop: '0px', marginBottom: '0px'}}>
+                    <Typography variant="h6" fontWeight={600}>
+                      {item.name}
+                    </Typography>
 
-                        <Button
-                            variant="contained"
-                            sx={{
-                                mt: 2,
-                                width: "100%",
-                                borderRadius: 16,
-                                textTransform: "none",
-                                backgroundColor: "#C59F68", 
-                                "&:hover": { backgroundColor: "#B08B59" }
-                            }}
-                            onClick={() => addToCart({ id: item.id, name: item.name, price: Number(item.price.toString().replace(/[^0-9]/g, "")), image: item.image, quantity: 1})}
-                        >
-                        Add to Cart
-                        </Button>
-                    </CardContent>
-                </Card>
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                    >
+                      ₦{item.price.toLocaleString()}
+                    </Typography>
+
+                    <Button
+                      variant="contained"
+                      sx={{
+                        mt: 2,
+                        width: "100%",
+                        borderRadius: 16,
+                        textTransform: "none",
+                        backgroundColor: "#1976d2",
+                        marginY: '10px',
+                        "&:hover": { backgroundColor: "#1565c0" },
+                      }}
+                      onClick={() =>
+                        addToCart({
+                          id: item._id,
+                          name: item.name,
+                          price: item.price,
+                          image: item.images?.[0],
+                          quantity: 1,
+                        })
+                      }
+                    >
+                      Add to Cart
+                    </Button>
+                  </CardContent>
+              </Card>
             </Grid>
-            ))}
+          ))}
         </Grid>
-        </Box>
-
+      </Box>
     </>
   );
 };

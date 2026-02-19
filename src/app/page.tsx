@@ -4,6 +4,7 @@ import Bigone from "./components/bigone/bigone";
 import Tabs from "./components/tabs/tabs";
 import Testimonials from "./components/testimonials/testimonials";
 import NavbarClientWrapper from "./components/navbar/navbarClientwrapper";
+import Footer from "./components/footer/footer";
 
 
 export default function Home() {
@@ -12,13 +13,12 @@ export default function Home() {
     <>
       <NavbarClientWrapper />
       <Navbar />
-      <main>
-        <Bigone />
-        <Tabs />
-        {/* <Collection /> */}
-        <Testimonials />
-         {/* <Footer /> */}
-      </main>
+        <main>
+          <Bigone />
+          <Tabs />
+          <Testimonials />
+        </main>
+      <Footer />
     </>
   )
 }
