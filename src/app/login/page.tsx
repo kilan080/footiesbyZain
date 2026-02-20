@@ -10,6 +10,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { api } from "@/lib/api";
 
 const LoginPage = () => {
     const router = useRouter();
@@ -25,8 +26,8 @@ const LoginPage = () => {
         setError("");
 
         try {
-        const res = await fetch(
-            "https://footies-backend.vercel.app/admin/login",
+        const res = await api(
+            "/admin/login",
             {
             method: "POST",
             headers: {

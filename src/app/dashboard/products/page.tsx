@@ -25,7 +25,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { fetchWithAuth } from "@/lib/api";
+import { api } from "@/lib/api";
 import Link from "next/link";
 
 type Product = {
@@ -47,7 +47,7 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await fetchWithAuth("/admin/products");
+        const data = await api("/admin/products");
         
 
         console.log("Parsed Data:", data);
@@ -67,7 +67,7 @@ export default function ProductsPage() {
     if (!selectedProduct) return;
 
     try {
-      await fetchWithAuth(`/admin/products/${selectedProduct._id}`, {
+      await api(`/admin/products/${selectedProduct._id}`, {
         method: "DELETE",
       });
 

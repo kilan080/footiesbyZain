@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import { Slide, Fade, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { api } from '@/lib/api';
 
 
 interface Testimonial {
@@ -55,7 +56,7 @@ export default function Testimonials() {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const res = await axios.get("http://footies-backend.vercel.app/testimonials");
+        const res = await api("/testimonials");
         setTestimonials(res.data);
         console.log("testimonials data:", res.data);
       } catch (error) {

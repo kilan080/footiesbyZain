@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Sidebar from '../components/layout/sidebar';
 import { Box, Toolbar } from '@mui/material';
 import Header from '../components/layout/header';
+import { redirect } from 'next/navigation';
 
 const drawerWidth = 240;
 
@@ -12,15 +13,13 @@ type DashboardLayoutProps = {
 };
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
-  const router = useRouter()
+  const token = localStorage.getItem("adminToken");
+  
+  if(!token) {
+    redirect('/login')
+  }
 
-  useEffect(() => {
-    const token = localStorage.getItem("adminToken");
 
-    if(!token) {
-      router.push('/login')
-    }
-  }, [router]);
 
   return (
     <Box sx={{ display: "flex" }}>

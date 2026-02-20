@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { fetchWithAuth } from "@/lib/api";
+import { api } from "@/lib/api";
 
 
 export default function NewProductPage() {
@@ -33,7 +33,7 @@ export default function NewProductPage() {
     e.preventDefault();
 
     try {
-      const res = await fetchWithAuth("/admin/products", {
+      const res = await api("/admin/products", {
         method: "POST",
         body: JSON.stringify({
           name: form.name,

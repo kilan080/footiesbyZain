@@ -13,6 +13,7 @@ import { Slide, Fade, CircularProgress } from '@mui/material';
 // import { useColorScheme } from '@mui/material/styles';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { api } from '@/lib/api';
 
 
 interface Testimonial {
@@ -62,9 +63,9 @@ export default function Testimonials() {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const res = await axios.get("http://footies-backend.vercel.app/testimonials");
-        setTestimonials(res.data);
-        console.log("testimonials data:", res.data);
+        const res = await api("/testimonials");
+        setTestimonials(res);
+        console.log("testimonials data:", res);
       } catch (error) {
         console.error("Error fetching testimonials:", error);
       } finally {

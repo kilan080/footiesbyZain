@@ -16,6 +16,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Fade from '@mui/material/Fade';
 import Slide from '@mui/material/Slide';
 import axios from 'axios';
+import { api } from '@/lib/api';
 
 interface Inputs {
   email: string;
@@ -40,9 +41,12 @@ const ContactPage = () => {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        'http://footies-backend.vercel.app/contacts',
-        data
+      const response = await api(
+        '/contacts',
+        {
+          method: 'POST',
+          body: {...data}
+        }
       );
 
       toast.success(response.data.message);

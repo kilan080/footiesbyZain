@@ -11,7 +11,7 @@ import {
   MenuItem,
   Paper,
 } from "@mui/material";
-import { fetchWithAuth } from "@/lib/api";
+import { api } from "@/lib/api";
 import { ChangeEvent, FormEvent } from 'react';
 
 export default function EditProductPage() {
@@ -32,7 +32,7 @@ export default function EditProductPage() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const data = await fetchWithAuth(`/admin/products/${id}`);
+        const data = await api(`/admin/products/${id}`);
         const product = data.product;
 
         setForm({
@@ -62,7 +62,7 @@ export default function EditProductPage() {
     e.preventDefault();
 
     try {
-      await fetchWithAuth(`/admin/products/${id}`, {
+      await api(`/admin/products/${id}`, {
         method: "PUT",
         body: JSON.stringify({
           name: form.name,

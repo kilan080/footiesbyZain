@@ -1,8 +1,8 @@
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export const fetchWithAuth = async (
+export const api = async (
   endpoint: string,
-  options: RequestInit = {}
+  options: any = {}
 ) => {
   const token = localStorage.getItem("adminToken");
 
@@ -26,6 +26,6 @@ export const fetchWithAuth = async (
     console.error(`API Error [${response.status}]:`, text);
     throw new Error(`API request failed: ${response.status}`);
   }
-
-  return response.json();
+  const data = await response.json();
+  return data;
 };
