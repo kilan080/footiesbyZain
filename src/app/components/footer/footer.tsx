@@ -113,7 +113,7 @@ export default function Footer() {
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'center' }}>
-          <Link href="#" underline="hover" color="text.secondary">About Us</Link>
+          <Link href="/about" underline="hover" color="text.secondary">About Us</Link>
           <Link href="#" underline="hover" color="text.secondary">Contact Us</Link>
           <Link href="#" underline="hover" color="text.secondary">Privacy Policy</Link>
           <Link href="#" underline="hover" color="text.secondary">Terms of Service</Link>

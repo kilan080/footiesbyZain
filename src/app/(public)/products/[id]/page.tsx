@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Box, Typography, Button } from "@mui/material";
 import { useCart } from "@/cartContext/cartContext";
-import { useEffect, useState, use } from "react"; // Added 'use'
+import { useEffect, useState, use } from "react"; 
 
 interface Product {
   _id: string;
@@ -17,9 +17,9 @@ interface Product {
 export default function ProductDetails({
   params,
 }: {
-  params: Promise<{ id: string }>; // Changed to Promise
+  params: Promise<{ id: string }>; 
 }) {
-  const { id } = use(params); // Unwrap params with use()
+  const { id } = use(params); 
   const { addToCart } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);

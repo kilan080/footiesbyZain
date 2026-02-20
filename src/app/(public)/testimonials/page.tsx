@@ -48,13 +48,7 @@ function stringAvatar(name: string) {
 }
 
 
-// const logoStyle = {
-//   width: '64px',
-//   opacity: 0.3,
-// };
-
 export default function Testimonials() {
-  // const { mode, systemMode } = useColorScheme();
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
 

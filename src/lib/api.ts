@@ -5,8 +5,6 @@ export const fetchWithAuth = async (
   options: RequestInit = {}
 ) => {
   const token = localStorage.getItem("adminToken");
-  // const url = `${BASE_URL}${endpoint}`;
-  // console.log(" Fetching URL:", url);
 
   const response = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
