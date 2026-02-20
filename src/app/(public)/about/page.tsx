@@ -55,19 +55,24 @@ const About = () => {
         </Typography>
 
         <Typography component="blockquote" sx={{ fontFamily: 'var(--font-vollkorn)', fontSize: 'clamp(22px, 3.5vw, 36px)', fontStyle: 'italic', fontWeight: 400, lineHeight: 1.5, color: '#111', mb: 5 }}>
-          "Each pair was crafted to carry culture, comfort, and quality — across borders and beyond."
+          Each pair was crafted to carry culture, comfort, and quality &mdash; across borders and beyond.
         </Typography>
 
         <Box sx={{ width: '50px', height: '2px', background: '#111', mx: 'auto', mb: 5 }} />
 
         <Typography sx={{ fontFamily: 'var(--font-vollkorn)', fontSize: '15px', lineHeight: 1.95, color: '#444', fontWeight: 400 }}>
-          In 2019, FootiesByZain was founded by Zain, a visionary designer with a passion for luxury footwear. Inspired by the flair for street fashion, Zain set out to create a brand that would redefine elegance and set new standards of unmatched quality.
+           In 2019, FootiesByZain was founded by Zain, a visionary designer with a
+            passion for luxury footwear. Inspired by the flair for street fashion,
+            Zain set out to create a brand that would redefine elegance and set new
+            standards of unmatched quality.   
         </Typography>
         <Typography sx={{ fontFamily: 'var(--font-vollkorn)', fontSize: '15px', lineHeight: 1.95, color: '#444', fontWeight: 400, mt: 2.5 }}>
           Every handmade shoe and slide — crafted for men and women — is designed with love and true devotedness. No shortcuts, no compromises. Just quality you can feel from the very first step.
         </Typography>
         <Typography sx={{ fontFamily: 'var(--font-vollkorn)', fontSize: '15px', lineHeight: 1.95, color: '#444', fontWeight: 400, mt: 2.5 }}>
-          FootiesByZain isn't just footwear. It's a statement. Built to proselytize street fashion across borders and beyond — for those who wear their story without apology.
+           FootiesByZain isn&apos;t just footwear. It&apos;s a statement. Built to
+            proselytize street fashion across borders and beyond — for those who wear
+            their story without apology.
         </Typography>
 
         <Typography sx={{ fontFamily: 'var(--font-vollkorn)', mt: 5, fontStyle: 'italic', fontSize: '17px', color: '#888' }}>
