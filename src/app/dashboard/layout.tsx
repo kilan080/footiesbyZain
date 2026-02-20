@@ -1,6 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import React from 'react';
 import Sidebar from '../components/layout/sidebar';
 import { Box, Toolbar } from '@mui/material';
 import Header from '../components/layout/header';
@@ -13,7 +12,7 @@ type DashboardLayoutProps = {
 };
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
-  const token = localStorage.getItem("adminToken");
+  const token = typeof window !== 'undefined'? localStorage.getItem("adminToken") : null;
   
   if(!token) {
     redirect('/login')

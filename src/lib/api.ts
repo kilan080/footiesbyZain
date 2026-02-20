@@ -2,6 +2,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const api = async (
   endpoint: string,
+  // eslint-disable-next-line
   options: any = {}
 ) => {
   const token = localStorage.getItem("adminToken");

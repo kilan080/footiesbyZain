@@ -10,7 +10,6 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { Slide, Fade, CircularProgress } from '@mui/material';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 

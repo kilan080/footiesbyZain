@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import { CircularProgress } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import { useCart } from "../../../cartContext/cartContext";
+import { api } from "@/lib/api";
 
 // Define the Product interface
 interface Product {
@@ -24,7 +25,7 @@ interface Product {
 
 const Tabs = () => {
   const { addToCart } = useCart();
-  const [products, setProducts] = useState<Product[]>([]); // Fixed: Changed from any[] to Product[]
+  const [products, setProducts] = useState<Product[]>([]); 
   const [loading, setLoading] = useState(true);
 
   const categories = ["All", "slides", "shoes"];
@@ -33,8 +34,8 @@ const Tabs = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(
-          "https://footies-backend.vercel.app/products"
+        const res = await api(
+          "/products"
         );
 
         const data = await res.json();
