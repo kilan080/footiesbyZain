@@ -12,7 +12,6 @@ import CardContent from "@mui/material/CardContent";
 import { useCart } from "../../../cartContext/cartContext";
 import { api } from "@/lib/api";
 
-// Define the Product interface
 interface Product {
   _id: string;
   name: string;
@@ -34,13 +33,8 @@ const Tabs = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await api(
-          "/products"
-        );
-
-        const data = await res.json();
-
-        setProducts(data.products);
+        const data = await api("/products");
+        setProducts(data.products || []);
       } catch (error) {
         console.error("Failed to fetch products:", error);
       } finally {
@@ -155,7 +149,7 @@ const Tabs = () => {
                       }}
                       onClick={() =>
                         addToCart({
-                          id: Number(item._id),
+                          id: item._id,
                           name: item.name,
                           price: item.price,
                           image: item.images?.[0],

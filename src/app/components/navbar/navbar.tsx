@@ -11,11 +11,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import Avatar from '@mui/material/Avatar';
 import Image from 'next/image';
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CartDrawer from '../cartDrawer/cartDrawer';
 import { useCart } from "../../../cartContext/cartContext";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const pages = [
   { label: 'Men', href: '/men' },
@@ -26,6 +28,37 @@ const pages = [
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [firstName, setFirstName] = React.useState<string | null>(null);
+  const router = useRouter();
+
+  // Check localStorage for token and decode first name on mount
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        // fetch user profile to get firstName
+        fetch("http://localhost:4000/user/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.firstName) setFirstName(data.firstName);
+          })
+          .catch(() => null);
+      } catch {
+        null;
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setFirstName(null);
+    setAnchorElUser(null);
+    router.push("/user-login");
+  };
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -75,15 +108,9 @@ function ResponsiveAppBar() {
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                 keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
+                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
                 sx={{ display: { xs: 'block', md: 'none' } }}
@@ -95,9 +122,7 @@ function ResponsiveAppBar() {
                     component={Link}
                     href={page.href}
                   >
-                    <Typography sx={{ textAlign: 'center' }}>
-                      {page.label}
-                    </Typography>
+                    <Typography sx={{ textAlign: 'center' }}>{page.label}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -139,9 +164,50 @@ function ResponsiveAppBar() {
             </Box>
 
             {/* Cart Icon */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               <ShoppingCartIcon onClick={toggleCart} sx={{ cursor: 'pointer' }} />
               <span style={{ marginLeft: 4 }}>{cartCount}</span>
+
+              {/* User — logged in vs logged out */}
+              {firstName ? (
+                <>
+                  <Box
+                    onClick={(e) => setAnchorElUser(e.currentTarget)}
+                    sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}
+                  >
+                    <Avatar sx={{ width: 32, height: 32, bgcolor: '#2563eb', fontSize: 14, fontWeight: 700 }}>
+                      {firstName.charAt(0).toUpperCase()}
+                    </Avatar>
+                    <Typography sx={{ color: 'white', fontSize: 14, fontWeight: 500 }}>
+                      {firstName}
+                    </Typography>
+                  </Box>
+
+                  {/* Dropdown menu */}
+                  <Menu
+                    anchorEl={anchorElUser}
+                    open={Boolean(anchorElUser)}
+                    onClose={() => setAnchorElUser(null)}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  >
+                    <MenuItem component={Link} href="/profile" onClick={() => setAnchorElUser(null)}>
+                      My Profile
+                    </MenuItem>
+                    <MenuItem onClick={handleLogout}>
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </>
+              ) : (
+                <Button
+                  component={Link}
+                  href="/user-login"
+                  sx={{ color: 'white', fontSize: 13, textTransform: 'none', fontWeight: 500 }}
+                >
+                  Sign In
+                </Button>
+              )}
             </Box>
           </Toolbar>
         </Container>
