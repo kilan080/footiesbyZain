@@ -26,23 +26,13 @@ const LoginPage = () => {
         setError("");
 
         try {
-        const res = await api(
-            "/admin/login",
-            {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-            }
+        const data = await api("/admin/login",
+          {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+          }
         );
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            throw new Error(data.message || "Login failed");
-        }
-
+        
         // Save token
         localStorage.setItem("adminToken", data.token);
 

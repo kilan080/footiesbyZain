@@ -18,6 +18,7 @@ import CartDrawer from '../cartDrawer/cartDrawer';
 import { useCart } from "../../../cartContext/cartContext";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { api } from '@/lib/api';
 
 const pages = [
   { label: 'Men', href: '/men' },
@@ -37,18 +38,14 @@ function ResponsiveAppBar() {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
         // fetch user profile to get firstName
-        fetch("http://localhost:4000/user/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-          .then((res) => res.json())
+        api("/user/me")
           .then((data) => {
             if (data.firstName) setFirstName(data.firstName);
           })
-          .catch(() => null);
+        .catch(() => null);
       } catch {
-        null;
+        // null
       }
     }
   }, []);

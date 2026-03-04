@@ -179,7 +179,7 @@ export default function ProductDetails({
               }}
               onClick={() =>
                 addToCart({
-                  id: parseInt(product._id),
+                  id: product._id,
                   name: product.name,
                   price: product.price,
                   image: product.images?.[0],

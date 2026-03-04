@@ -59,6 +59,7 @@ export default function RegisterPage() {
     setError("");
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { confirmPassword, ...payload } = form;
       
       await api("/user/register", {
@@ -68,8 +69,12 @@ export default function RegisterPage() {
 
       setSuccess("Account created! Redirecting to login...");
       setTimeout(() => router.push("/user-login"), 2000);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if(err instanceof Error)
+        setError(err.message);
+      else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }
