@@ -23,7 +23,7 @@ const Sidebar: React.FC = () => {
   const navItems = [
     { text: "Dashboard", href: "/dashboard", icon: <DashboardIcon /> },
     { text: "Products", href: "/dashboard/products", icon: <InventoryIcon /> },
-    { text: "Logout", href: "/logout", icon: <LogoutIcon /> },
+    { text: "Logout", href: "/user-login", icon: <LogoutIcon /> },
     { text: "Add Product", href: "/dashboard/products/new" },
     { text: "Orders", href: "/dashboard/orders" },
 

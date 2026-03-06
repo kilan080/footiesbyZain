@@ -33,9 +33,9 @@ import { api } from "@/lib/api";
                     method: "POST",
                     body: JSON.stringify(form),
                 }, true);
-                //   if (!data.ok) throw new Error(data.message || "Login failed.");
                 localStorage.setItem("token", data.token);
-                router.push("/");
+                const redirectTo = new URLSearchParams(window.location.search).get("redirect");
+                router.push(redirectTo || "/");
             } catch (err: unknown) {
                 if (err instanceof Error) {
                     setError(err.message);
