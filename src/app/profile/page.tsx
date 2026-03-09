@@ -13,6 +13,7 @@ import {
 } from "@mui/icons-material";
 import { api } from "@/lib/api";
 import ShoppingBagOutlined from "@mui/icons-material/ShoppingBagOutlined";
+import Navbar from '@/app/components/navbar/navbar'
 
 interface UserProfile {
   firstName: string;
@@ -45,7 +46,6 @@ export default function ProfilePage() {
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  // Fetch user profile on mount
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -143,7 +143,7 @@ export default function ProfilePage() {
   return (
     <Box sx={{ minHeight: "100vh", background: "#f5f7fa", pt: 10, pb: 6, px: { xs: 2, md: 6 } }}>
       <Box sx={{ maxWidth: 1000, mx: "auto", display: "flex", gap: 3, flexDirection: { xs: "column", md: "row" } }}>
-
+        <Navbar />
         {/* SIDEBAR */}
         <Box sx={{
           width: { xs: "100%", md: 260 },
@@ -397,7 +397,6 @@ export default function ProfilePage() {
   );
 }
 
-// ORDER-SECTION
 
 function OrdersSection() {
   const [orders, setOrders] = useState<any[]>([]);
@@ -494,7 +493,6 @@ const statusColor = (status: string) => {
   }
 };
 
-// ORDERSECTION
 
 
 const labelSx = { fontSize: 13, fontWeight: 600, color: "#333", mb: 0.8 };

@@ -21,8 +21,8 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 
 const pages = [
-  { label: 'Men', href: '/men' },
-  { label: 'Women', href: '/women' },
+  { label: 'Slide', href: '/slide' },
+  { label: 'Shoe', href: '/shoe' },
   { label: 'Testimonials', href: '/testimonials' },
   { label: 'Contact', href: '/contact' },
 ];
@@ -38,7 +38,6 @@ function ResponsiveAppBar() {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        // fetch user profile to get firstName
         api("/user/me")
           .then((data) => {
             if (data.firstName) setFirstName(data.firstName);
@@ -162,10 +161,11 @@ function ResponsiveAppBar() {
 
             {/* Cart Icon */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <ShoppingCartIcon onClick={toggleCart} sx={{ cursor: 'pointer' }} />
-              <span style={{ marginLeft: 4 }}>{cartCount}</span>
+              <Box sx={{ display: 'flex', flexDirection: 'column-reverse'}}>
+                <ShoppingCartIcon onClick={toggleCart} sx={{ cursor: 'pointer' }} />
+                <span style={{ marginLeft: 4 }}>{cartCount}</span>
+              </Box>
 
-              {/* User — logged in vs logged out */}
               {firstName ? (
                 <>
                   <Box

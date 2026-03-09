@@ -48,22 +48,15 @@ function stringAvatar(name: string) {
 }
 
 
-// const logoStyle = {
-//   width: '64px',
-//   opacity: 0.3,
-// };
-
 export default function Testimonials() {
-  // const { mode, systemMode } = useColorScheme();
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([] as Testimonial[]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const res = await api("/testimonials");
-        setTestimonials(res);
-        console.log("testimonials data:", res);
+        const data = await api("/testimonials", {}, true);
+        setTestimonials(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching testimonials:", error);
       } finally {
@@ -73,8 +66,6 @@ export default function Testimonials() {
     }
     fetchTestimonials();
   } , []);
-
-    console.log("testimonials state:", testimonials);
 
     if(loading) {
       return <CircularProgress />
@@ -116,7 +107,7 @@ export default function Testimonials() {
         </Fade>
       </Box>
       <Grid container spacing={2}>
-        {testimonials.map((testimonial) => (
+        {(testimonials || []).map((testimonial) => (
           <Grid size={{ xs: 12, sm: 6, md: 4 }} key={testimonial._id} sx={{ display: 'flex' }}>
             <Slide direction='up' in={true} timeout={2000}>
               <Card
