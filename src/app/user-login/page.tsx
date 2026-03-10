@@ -34,6 +34,7 @@ import { api } from "@/lib/api";
                     body: JSON.stringify(form),
                 }, true);
                 localStorage.setItem("token", data.token);
+                document.cookie = `token=${data.token}; path=/; max-age=${7 * 24 * 60 * 60}`;
                 const redirectTo = new URLSearchParams(window.location.search).get("redirect");
                 router.push(redirectTo || "/");
             } catch (err: unknown) {
@@ -72,7 +73,7 @@ import { api } from "@/lib/api";
                     letterSpacing: 4, textTransform: "uppercase",
                     textShadow: "0 2px 20px rgba(0,0,0,0.3)"
                 }}>
-                    Footies by Zain
+                    Footies by Zayn
                 </Typography>
                 <Typography sx={{ color: "rgba(255,255,255,0.7)", letterSpacing: 3, fontSize: 12, textTransform: "uppercase" }}>
                     Walk in confidence
@@ -95,7 +96,7 @@ import { api } from "@/lib/api";
                 {/* Mobile brand */}
                 <Box sx={{ display: { xs: "block", md: "none" }, mb: 4 }}>
                 <Typography sx={{ fontSize: 28, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase", color: "#111" }}>
-                    FootiesbyZain
+                    FootiesbyZayn
                 </Typography>
                 </Box>
 

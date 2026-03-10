@@ -17,7 +17,7 @@ const vollkorn = Vollkorn({
 });
 
 export const metadata: Metadata = {
-  title: "FOOTIES BY ZAIN",
+  title: "FOOTIES BY ZAYN",
   description: "Premium footwear for every step you take.",
 };
 

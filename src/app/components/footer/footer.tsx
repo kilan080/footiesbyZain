@@ -129,6 +129,15 @@ export default function Footer() {
           <InstagramIcon sx={{ fontSize: 35, color: '#E4405F' }} />
         </Link>
       </Box>
+      <Typography sx={{ fontSize: 12, color: "#aaa", textAlign: "center", mt: 2 }}>
+        <Link href="/admin-login" style={{ color: "#aaa", textDecoration: "none" }}>
+          Admin
+        </Link>
+        {" · "}
+        <Link href="/user-login" style={{ color: "#aaa", textDecoration: "none" }}>
+          Sign In
+        </Link>
+      </Typography>
 
       <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'center' }} mt={4}>
         &copy; {new Date().getFullYear()} Footies by Zayn. All rights reserved.

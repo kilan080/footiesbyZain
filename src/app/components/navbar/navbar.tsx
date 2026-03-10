@@ -51,6 +51,7 @@ function ResponsiveAppBar() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    document.cookie = "token=; path=/; max-age=0";
     setFirstName(null);
     setAnchorElUser(null);
     router.push("/user-login");

@@ -38,7 +38,7 @@ const About = () => {
           <Typography component="h1" sx={{ fontFamily: 'var(--font-vollkorn)', fontSize: 'clamp(50px, 9vw, 120px)', fontWeight: 900, lineHeight: 0.9, color: '#111', animation: 'rise 1s ease 0.7s both' }}>
             Footies
             <Box component="span" sx={{ display: 'block', fontStyle: 'italic', fontWeight: 400, color: '#555', fontSize: '0.6em' }}>
-              by Zain
+              by Zayn
             </Box>
           </Typography>
           <Typography sx={{ fontFamily: 'var(--font-vollkorn)', mt: 3, fontSize: '11px', letterSpacing: '4px', textTransform: 'uppercase', color: 'rgba(0,0,0,0.45)', animation: 'rise 1s ease 1s both' }}>
@@ -61,22 +61,22 @@ const About = () => {
         <Box sx={{ width: '50px', height: '2px', background: '#111', mx: 'auto', mb: 5 }} />
 
         <Typography sx={{ fontFamily: 'var(--font-vollkorn)', fontSize: '15px', lineHeight: 1.95, color: '#444', fontWeight: 400 }}>
-           In 2019, FootiesByZain was founded by Zain, a visionary designer with a
-            passion for luxury footwear. Inspired by the flair for street fashion,
-            Zain set out to create a brand that would redefine elegance and set new
+           In 2022, FootiesByZayn was founded by Zayn, a visionary designer with a
+            passion for luxury footwear. Inspired by the flair for footwear fashion,
+            Zayn set out to create a brand that would redefine elegance and set new
             standards of unmatched quality.   
         </Typography>
         <Typography sx={{ fontFamily: 'var(--font-vollkorn)', fontSize: '15px', lineHeight: 1.95, color: '#444', fontWeight: 400, mt: 2.5 }}>
-          Every handmade shoe and slide — crafted for men and women — is designed with love and true devotedness. No shortcuts, no compromises. Just quality you can feel from the very first step.
+          Every handmade shoe and slide , crafted for men and women  is designed with love and true devotedness. No shortcuts, no compromises. Just quality you can feel from the very first step.
         </Typography>
         <Typography sx={{ fontFamily: 'var(--font-vollkorn)', fontSize: '15px', lineHeight: 1.95, color: '#444', fontWeight: 400, mt: 2.5 }}>
-           FootiesByZain isn&apos;t just footwear. It&apos;s a statement. Built to
-            proselytize street fashion across borders and beyond — for those who wear
+           FootiesByZayn isn&apos;t just footwear. It&apos;s a statement. Built to
+            proselytize street fashion across borders and beyond ** for those who wear
             their story without apology.
         </Typography>
 
         <Typography sx={{ fontFamily: 'var(--font-vollkorn)', mt: 5, fontStyle: 'italic', fontSize: '17px', color: '#888' }}>
-          — Zain, Founder of FootiesByZain
+          — Zayn, Founder of FootiesByZayn
         </Typography>
       </Box>
 

@@ -15,7 +15,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const token = typeof window !== 'undefined'? localStorage.getItem("adminToken") : null;
   
   if(!token) {
-    redirect('/login')
+    redirect('/admin-login')
   }
 
 

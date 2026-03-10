@@ -35,7 +35,7 @@ const LoginPage = () => {
         
         // Save token
         localStorage.setItem("adminToken", data.token);
-
+        document.cookie = `adminToken=${data.token}; path=/; max-age=${24 * 60 * 60}`;
         // Redirect to dashboard
         router.push("/dashboard");
         } catch (err: unknown) {

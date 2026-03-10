@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import { CircularProgress } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import { useCart } from "../../../cartContext/cartContext";
+import LockOutlined from "@mui/icons-material/LockOutlined";
 import { api } from "@/lib/api";
 
 interface Product {
@@ -135,20 +136,32 @@ const Tabs = () => {
                     >
                       ₦{item.price.toLocaleString()}
                     </Typography>
+                    
+                    {(item.stock ?? 0) > 0 && (item.stock ?? 0) <= 5 && (
+                      <Typography sx={{ fontSize: 11, color: "#ef4444", mt: 1 }}>
+                        Only {item.stock} left!
+                      </Typography>
+                    )}
 
                     <Button
                       variant="contained"
+                      // disabled={item.stock === 0}
+                      startIcon={item.stock === 0 ? <LockOutlined sx={{ fontSize: 20 }} /> : null}
                       sx={{
                         mt: 2,
                         width: "100%",
                         borderRadius: 16,
                         textTransform: "none",
-                        backgroundColor: "#1976d2",
+                        backgroundColor: item.stock === 0 ? "#333" : "#1976d2",
                         marginY: '10px',
-                        "&:hover": { backgroundColor: "#1565c0" },
+                        "&:hover": { backgroundColor: item.stock === 0 ? "#3339" : "#1565c0" },
+                        "&.Mui-disabled": { 
+                          backgroundColor: "#ef4444",
+                          color: "#fff" 
+                        },
                       }}
                       onClick={() =>
-                        addToCart({
+                        item.stock != 0 && addToCart({
                           id: item._id,
                           name: item.name,
                           price: item.price,
@@ -157,7 +170,7 @@ const Tabs = () => {
                         })
                       }
                     >
-                      Add to Cart
+                      {item.stock === 0 ? "Out of Stock" : "Add to Cart"}
                     </Button>
                   </CardContent>
               </Card>

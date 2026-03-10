@@ -99,7 +99,7 @@ export default function RegisterPage() {
           {/* Brand */}
           <Box sx={{ textAlign: "center", mb: 4 }}>
             <Typography variant="h3" sx={{ fontWeight: 700, color: "#fff", letterSpacing: 3, textTransform: "uppercase" }}>
-              Footies by Zain
+              Footies by Zayn
             </Typography>
             <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.45)", letterSpacing: 2, textTransform: "uppercase", fontSize: 11, mt: 0.5 }}>
               Premium Footwear
