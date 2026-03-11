@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { Slide, Fade, CircularProgress } from '@mui/material';
+import { Slide, Fade,  Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 
@@ -68,7 +68,28 @@ export default function Testimonials() {
   } , []);
 
     if(loading) {
-      return <CircularProgress />
+      <Container sx={{ pt: { xs: 4, sm: 12 }, pb: { xs: 8, sm: 16 } }}>
+      <Skeleton variant="text" width={200} height={50} sx={{ mx: "auto", mb: 2 }} />
+      <Skeleton variant="text" width={400} height={24} sx={{ mx: "auto", mb: 4 }} />
+      <Grid container spacing={2}>
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
+            <Box sx={{ p: 2, border: "1px solid #eee", borderRadius: 2 }}>
+              <Skeleton variant="text" width="90%" />
+              <Skeleton variant="text" width="80%" />
+              <Skeleton variant="text" width="60%" sx={{ mb: 2 }} />
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Skeleton variant="circular" width={40} height={40} />
+                <Box>
+                  <Skeleton variant="text" width={100} />
+                  <Skeleton variant="text" width={70} />
+                </Box>
+              </Box>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
     }
 
   return (

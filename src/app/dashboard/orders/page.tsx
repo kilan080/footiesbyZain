@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import {
   Box, Typography, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Paper, Select, MenuItem, Chip, CircularProgress,
+  TableHead, TableRow, Paper, Select, MenuItem, Chip, Skeleton,
   Alert, IconButton, Collapse, Divider,
 } from "@mui/material";
+import toast from "react-hot-toast";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { api } from "@/lib/api";
 
@@ -235,16 +236,36 @@ export default function OrdersDashboard() {
           paymentStatus: newStatus === "delivered" ? "paid" : o.paymentStatus,
         } : o)
       );
-      setSuccess(`Order status updated to ${newStatus}`);
+      toast.success(`Order status updated to ${newStatus}`);
       setTimeout(() => setSuccess(""), 3000);
     } catch {
-      setError("Failed to update order status.");
+      toast.error("Failed to update order status.");
     }
   };
 
   if (loading) return (
-    <Box sx={{ display: "flex", justifyContent: "center", py: 10 }}>
-      <CircularProgress />
+    <Box>
+      <Skeleton variant="text" width={150} height={36} sx={{ mb: 1 }} />
+      <Skeleton variant="text" width={250} height={20} sx={{ mb: 3 }} />
+      <Box sx={{ display: "flex", gap: 1.5, mb: 3 }}>
+        {[1, 2, 3, 4, 5].map((i) => (
+          <Skeleton key={i} variant="rounded" width={100} height={32} sx={{ borderRadius: 10 }} />
+        ))}
+      </Box>
+      <Box sx={{ borderRadius: 3, overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <Box key={i} sx={{ display: "flex", gap: 2, p: 2, borderBottom: "1px solid #f0f0f0", alignItems: "center" }}>
+            <Skeleton variant="circular" width={32} height={32} />
+            <Skeleton variant="text" width={80} />
+            <Skeleton variant="text" width={120} sx={{ flex: 1 }} />
+            <Skeleton variant="text" width={60} />
+            <Skeleton variant="text" width={80} />
+            <Skeleton variant="rounded" width={90} height={28} sx={{ borderRadius: 10 }} />
+            <Skeleton variant="rounded" width={110} height={32} sx={{ borderRadius: 2 }} />
+            <Skeleton variant="text" width={70} />
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 

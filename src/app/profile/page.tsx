@@ -14,6 +14,7 @@ import {
 import { api } from "@/lib/api";
 import ShoppingBagOutlined from "@mui/icons-material/ShoppingBagOutlined";
 import Navbar from '@/app/components/navbar/navbar'
+import toast from "react-hot-toast";
 
 interface UserProfile {
   firstName: string;
@@ -88,11 +89,11 @@ export default function ProfilePage() {
         body: JSON.stringify(form),
       });
       setUser({ ...user, ...form });
-      setSuccess("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
       setEditMode(false);
     } catch (err: unknown) {
-      if (err instanceof Error) setError(err.message);
-      else setError("Failed to update profile.");
+      if (err instanceof Error) toast.error(err.message);
+      else toast.error("Failed to update profile.");
     } finally {
       setSaving(false);
     }
@@ -117,11 +118,11 @@ export default function ProfilePage() {
           newPassword: passwordForm.newPassword,
         }),
       });
-      setSuccess("Password changed successfully!");
+      toast.success("Password changed successfully!");
       setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
     } catch (err: unknown) {
-      if (err instanceof Error) setError(err.message);
-      else setError("Failed to change password.");
+      if (err instanceof Error) toast.error(err.message);
+      else toast.error("Failed to change password.");
     } finally {
       setSaving(false);
     }

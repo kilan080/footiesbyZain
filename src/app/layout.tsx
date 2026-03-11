@@ -6,8 +6,7 @@ import ThemeRegistry from "./themeRegistry";
 import EmotionProvider from "./emotionProvider";
 import { CartProvider } from "../cartContext/cartContext";
 import CartDrawer from "./components/cartDrawer/cartDrawer";
-// import Navbar from "./components/navbar/navbar";  
-// import Footer from "./components/footer/footer";
+import { Toaster } from "react-hot-toast";
 
 const vollkorn = Vollkorn({
   subsets: ['latin'],
@@ -29,15 +28,31 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${vollkorn.variable} antialiased`}>
+         <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              borderRadius: '10px',
+              fontFamily: 'inherit',
+              fontSize: '14px',
+            },
+            success: {
+              style: { background: '#f0fdf4', color: '#166534', border: '1px solid #bbf7d0' },
+              iconTheme: { primary: '#22c55e', secondary: '#fff' },
+            },
+            error: {
+              style: { background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca' },
+              iconTheme: { primary: '#ef4444', secondary: '#fff' },
+            },
+          }}
+        />
         <CartProvider>
           <ThemeRegistry>
             <EmotionProvider>
               <Providers>
-                {/* <Navbar /> */}
-                  {children}
-                {/* <Footer /> */}
+                 {children}
               </Providers>
-
               <CartDrawer />
             </EmotionProvider>
           </ThemeRegistry>

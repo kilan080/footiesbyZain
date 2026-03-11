@@ -10,6 +10,7 @@ import {
   Visibility, VisibilityOff, EmailOutlined, LockOutlined,
 } from "@mui/icons-material";
 import { api } from "@/lib/api";
+import toast from "react-hot-toast";
 
     export default function LoginPage() {
         const router = useRouter();
@@ -35,6 +36,7 @@ import { api } from "@/lib/api";
                 }, true);
                 localStorage.setItem("token", data.token);
                 document.cookie = `token=${data.token}; path=/; max-age=${7 * 24 * 60 * 60}`;
+                toast.success('Welcome back!')
                 const redirectTo = new URLSearchParams(window.location.search).get("redirect");
                 router.push(redirectTo || "/");
             } catch (err: unknown) {

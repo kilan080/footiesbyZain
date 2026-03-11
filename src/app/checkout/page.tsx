@@ -13,6 +13,7 @@ import {
 } from "@mui/icons-material";
 import { useCart } from "@/cartContext/cartContext";
 import { api } from "@/lib/api";
+import toast from "react-hot-toast";
 
 const DELIVERY_FEE = 2000;
 const steps = ["Delivery Info", "Payment", "Confirm"];
@@ -120,10 +121,11 @@ export default function CheckoutPage() {
 
       setOrderId(data.order._id);
       clearCart();
-      setActiveStep(2); // success step
+      toast.success("Order placed successfully!");
+      setActiveStep(2); 
     } catch (err: unknown) {
-      if (err instanceof Error) setError(err.message);
-      else setError("Failed to place order. Please try again.");
+      if (err instanceof Error) toast.error(err.message);
+      else toast.error(err instanceof Error ? err.message : "Failed to place order.");
     } finally {
       setLoading(false);
     }

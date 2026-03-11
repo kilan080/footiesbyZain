@@ -162,9 +162,9 @@ function ResponsiveAppBar() {
 
             {/* Cart Icon */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column-reverse'}}>
+              <Box sx={{ display: 'flex', flexDirection: 'column-reverse', gap: '0px'}}>
                 <ShoppingCartIcon onClick={toggleCart} sx={{ cursor: 'pointer' }} />
-                <span style={{ marginLeft: 4 }}>{cartCount}</span>
+                {cartCount > 0 && (<span style={{ marginLeft: 4 }}>{cartCount}</span>)}
               </Box>
 
               {firstName ? (

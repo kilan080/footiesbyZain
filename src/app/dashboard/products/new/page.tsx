@@ -89,7 +89,7 @@ export default function NewProductPage() {
             required
           >
             <MenuItem value="slides">Slides</MenuItem>
-            <MenuItem value="sneakers">Shoes</MenuItem>
+            <MenuItem value="shoes">Shoes</MenuItem>
           </TextField>
 
           <TextField

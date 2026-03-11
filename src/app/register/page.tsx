@@ -11,6 +11,7 @@ import {
   LockOutlined, PhoneOutlined, HomeOutlined,
 } from "@mui/icons-material";
 import { api } from "@/lib/api";
+import toast from "react-hot-toast";
 
 interface FormState {
   firstName: string;
@@ -67,7 +68,7 @@ export default function RegisterPage() {
         body: JSON.stringify(payload),
       }, true);
 
-      setSuccess("Account created! Redirecting to login...");
+      toast.success("Account created! Redirecting to login...");
       setTimeout(() => router.push("/user-login"), 2000);
     } catch (err: unknown) {
       if(err instanceof Error)

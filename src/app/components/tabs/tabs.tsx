@@ -7,7 +7,8 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import { CircularProgress } from "@mui/material";
+import {  Skeleton } from "@mui/material";
+import toast from "react-hot-toast";
 import CardContent from "@mui/material/CardContent";
 import { useCart } from "../../../cartContext/cartContext";
 import LockOutlined from "@mui/icons-material/LockOutlined";
@@ -53,9 +54,34 @@ const Tabs = () => {
 
     if (loading) {
       return (
-        <Box sx={{ display: "flex", justifyContent: "center", py: 10 }}>
-          <CircularProgress />
-        </Box>
+        <>
+          {/* Category tabs skeleton */}
+          <Box sx={{
+            display: "flex", justifyContent: "center", width: "100%",
+            height: "59px", backgroundColor: "#f5f5f5",
+            gap: { xs: 2, sm: 3, md: 4, lg: 6 }, alignItems: "center",
+          }}>
+            {[1, 2, 3].map((i) => (
+              <Skeleton key={i} variant="rounded" width={60} height={28} />
+            ))}
+          </Box>
+
+          {/* Product cards skeleton */}
+          <Box sx={{ mt: 4, maxWidth: "1200px", mx: "auto", px: 1 }}>
+            <Grid container spacing={3} justifyContent="center">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                <Grid key={i} size={{ xs: 6, sm: 6, md: 3 }} display="flex" justifyContent="center">
+                  <Box sx={{ width: 260 }}>
+                    <Skeleton variant="rectangular" width={260} height={190} sx={{ borderRadius: 2 }} />
+                    <Skeleton variant="text" width="70%" sx={{ mt: 1, fontSize: 20 }} />
+                    <Skeleton variant="text" width="40%" />
+                    <Skeleton variant="rounded" width={260} height={36} sx={{ mt: 1, borderRadius: 8 }} />
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </>
       );
     }
 
@@ -160,15 +186,18 @@ const Tabs = () => {
                           color: "#fff" 
                         },
                       }}
-                      onClick={() =>
-                        item.stock != 0 && addToCart({
-                          id: item._id,
-                          name: item.name,
-                          price: item.price,
-                          image: item.images?.[0],
-                          quantity: 1,
-                        })
-                      }
+                      onClick={() => {
+                        if (item.stock !== 0) {
+                          addToCart({
+                            id: item._id,
+                            name: item.name,
+                            price: item.price,
+                            image: item.images?.[0],
+                            quantity: 1,
+                          });
+                          toast.success(`${item.name} added to cart!`); 
+                        }
+                      }}
                     >
                       {item.stock === 0 ? "Out of Stock" : "Add to Cart"}
                     </Button>
