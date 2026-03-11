@@ -66,6 +66,7 @@ export default function CheckoutPage() {
         }));
       })
       .catch(() => null);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -273,7 +274,7 @@ export default function CheckoutPage() {
                   Order Placed!
                 </Typography>
                 <Typography sx={{ color: "#888", mb: 1 }}>
-                  Thank you for your order. We'll get it to you soon.
+                  Thank you for your order. We will get it to you soon.
                 </Typography>
                 {orderId && (
                   <Typography sx={{ fontSize: 13, color: "#aaa", mb: 4 }}>

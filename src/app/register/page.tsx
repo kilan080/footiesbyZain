@@ -34,7 +34,6 @@ export default function RegisterPage() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -112,7 +111,6 @@ export default function RegisterPage() {
           <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.45)", mb: 3 }}>Join us and step into something special.</Typography>
 
           {error && <Alert severity="error" sx={alertSx("error")}>{error}</Alert>}
-          {success && <Alert severity="success" sx={alertSx("success")}>{success}</Alert>}
 
           {/* First & Last Name */}
             <Box sx={{ display: "flex", gap: 2, flexWrap: { xs: "wrap", sm: "nowrap" } }}>

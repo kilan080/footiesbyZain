@@ -24,6 +24,12 @@ interface UserProfile {
   addresses: string;
 }
 
+interface OrderItemDisplay {
+  name: string;
+  quantity: number;
+  price: number;
+}
+
 type ActiveSection = "profile" | "password" | "orders";
 
 export default function ProfilePage() {
@@ -459,7 +465,7 @@ function OrdersSection() {
           <Divider sx={{ mb: 1.5 }} />
 
           {/* Order Items */}
-          {order.items.map((item: any, i: number) => (
+          {order.items.map((item: OrderItemDisplay, i: number) => (
             <Box key={i} sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
               <Typography sx={{ fontSize: 13 }}>{item.name} x{item.quantity}</Typography>
               <Typography sx={{ fontSize: 13, fontWeight: 600 }}>₦{(item.price * item.quantity).toLocaleString()}</Typography>
