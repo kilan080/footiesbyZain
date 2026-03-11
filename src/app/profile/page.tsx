@@ -406,7 +406,20 @@ export default function ProfilePage() {
 
 
 function OrdersSection() {
-  const [orders, setOrders] = useState<any[]>([]);
+  interface Order {
+    _id: string;
+    items: {
+      name: string;
+      quantity: number;
+      price: number;
+    }[];
+    total: number;
+    status: string;
+    paymentMethod: string;
+    createdAt: string;
+  }
+  
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
