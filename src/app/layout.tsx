@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Vollkorn } from 'next/font/google';
 import "./globals.css";
 import Providers from "./providers";
-import ThemeRegistry from "./themeRegistry";
+import ThemeRegistry from "./components/themeRegistry";
 import EmotionProvider from "./emotionProvider";
 import { CartProvider } from "../cartContext/cartContext";
 import CartDrawer from "./components/cartDrawer/cartDrawer";
@@ -16,8 +16,26 @@ const vollkorn = Vollkorn({
 });
 
 export const metadata: Metadata = {
-  title: "FOOTIES BY ZAYN",
-  description: "Premium footwear for every step you take.",
+  title:  {
+    default: "FOOTIES BY ZAYN",
+    template: "%s | Footies by Zain",
+  },
+  
+  description: "Shop Premium handmade footwear for every step you take, Fast delivery across Nigeria.",
+  keywords: ["footwear", "shoes", "slides", "ilorin", "Nigeria", "Footies by Zain"],
+  metadataBase: new URL("https://footiesbyzain.vercel.app"),
+  openGraph: {
+    title: "Footies by Zain | Premium handmade Footwear",
+    description: "Shop premium footwear — slides, shoes",
+    url: "https://footiesbyzain.vercel.app",
+    siteName: "Footies by Zain",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Footies by Zain | Premium Footwear",
+    description: "Shop premium footwear — slides and shoes.",
+  },
 };
 
 export default function RootLayout({

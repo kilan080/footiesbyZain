@@ -55,7 +55,7 @@ export default function Testimonials() {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const data = await api("/testimonials", {}, true);
+        const data = await api("/testimonials?limit=6", {}, true);
         setTestimonials(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching testimonials:", error);
@@ -68,7 +68,7 @@ export default function Testimonials() {
   } , []);
 
     if(loading) {
-      <Container sx={{ pt: { xs: 4, sm: 12 }, pb: { xs: 8, sm: 16 } }}>
+     return <Container sx={{ pt: { xs: 4, sm: 12 }, pb: { xs: 8, sm: 16 } }}>
       <Skeleton variant="text" width={200} height={50} sx={{ mx: "auto", mb: 2 }} />
       <Skeleton variant="text" width={400} height={24} sx={{ mx: "auto", mb: 4 }} />
       <Grid container spacing={2}>

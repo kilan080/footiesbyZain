@@ -21,8 +21,8 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 
 const pages = [
-  { label: 'Slide', href: '/slide' },
-  { label: 'Shoe', href: '/shoe' },
+  { label: 'Slide', href: '/?category=slides' },
+  { label: 'Shoe', href: '/?category=shoes' },
   { label: 'Testimonials', href: '/testimonials' },
   { label: 'Contact', href: '/contact' },
 ];
@@ -150,6 +150,7 @@ function ResponsiveAppBar() {
               {pages.map((page) => (
                 <Button
                   key={page.label}
+                  prefetch={true}
                   component={Link}
                   href={page.href}
                   onClick={handleCloseNavMenu}
