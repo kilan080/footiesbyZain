@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
 import Image from "next/image";
 import { Box, Typography, Button } from "@mui/material";
 import { useCart } from "@/cartContext/cartContext";
-import { useEffect, useState, use } from "react"; 
+import { useEffect, useState, use } from "react";
 
 interface Product {
   _id: string;
@@ -17,9 +17,9 @@ interface Product {
 export default function ProductDetails({
   params,
 }: {
-  params: Promise<{ id: string }>; 
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = use(params); 
+  const { id } = use(params);
   const { addToCart } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -29,7 +29,7 @@ export default function ProductDetails({
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/products/${id}`,
-          { cache: "no-store" }
+          { cache: "no-store" },
         );
 
         if (!response.ok) {
@@ -46,7 +46,7 @@ export default function ProductDetails({
     }
 
     fetchProduct();
-  }, [id]); 
+  }, [id]);
 
   if (loading) {
     return <Box sx={{ textAlign: "center", py: 10 }}>Loading...</Box>;
@@ -63,7 +63,7 @@ export default function ProductDetails({
         mx: "auto",
         px: { xs: 2, sm: 3 },
         py: { xs: 3, md: 6 },
-        mt: '50px'
+        mt: "50px",
       }}
     >
       <Box
@@ -78,14 +78,14 @@ export default function ProductDetails({
           sx={{
             flex: 1,
             width: "100%",
-            minHeight: { xs: 300, sm: 400, lg: 500 }, 
+            minHeight: { xs: 300, sm: 400, lg: 500 },
           }}
         >
           <Box
             sx={{
               position: "relative",
               width: "100%",
-              height: { xs: 300, sm: 400, lg: 500 }, 
+              height: { xs: 300, sm: 400, lg: 500 },
             }}
           >
             <Image
@@ -103,22 +103,22 @@ export default function ProductDetails({
         </Box>
 
         {/* INFO SECTION */}
-        <Box 
-          sx={{ 
-            flex: 1, 
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            height: { xs: 'auto', lg: 500 },
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: { xs: "auto", lg: 500 },
           }}
         >
           <Box>
-            <Typography 
-              variant="h4" 
-              fontWeight={600} 
+            <Typography
+              variant="h4"
+              fontWeight={600}
               gutterBottom
               sx={{
-                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                fontSize: { xs: "1.5rem", sm: "2rem", md: "2.125rem" },
               }}
             >
               {product.name}
@@ -126,35 +126,35 @@ export default function ProductDetails({
 
             <Typography
               variant="h5"
-              sx={{ 
-                color: "#1976d2", 
-                fontWeight: 600, 
+              sx={{
+                color: "#1976d2",
+                fontWeight: 600,
                 mt: { xs: 2, lg: 8 },
-                fontSize: { xs: '1.25rem', sm: '1.5rem' }
+                fontSize: { xs: "1.25rem", sm: "1.5rem" },
               }}
             >
               ₦{product.price.toLocaleString()}
             </Typography>
           </Box>
 
-          <Typography 
-            variant="body1" 
-            sx={{ 
-              color: "#555", 
+          <Typography
+            variant="body1"
+            sx={{
+              color: "#555",
               lineHeight: 1.8,
               my: { xs: 3, lg: 0 },
-              fontSize: { xs: '0.875rem', sm: '1rem' }
+              fontSize: { xs: "0.875rem", sm: "1rem" },
             }}
           >
             {product.description}
           </Typography>
 
           <Box>
-            <Typography 
-              variant="body2" 
-              sx={{ 
+            <Typography
+              variant="body2"
+              sx={{
                 mb: { xs: 2, md: 4 },
-                fontSize: { xs: '0.875rem', sm: '1rem' }
+                fontSize: { xs: "0.875rem", sm: "1rem" },
               }}
             >
               Stock:{" "}
@@ -170,7 +170,7 @@ export default function ProductDetails({
               sx={{
                 backgroundColor: "#1976d2",
                 py: { xs: 1.2, sm: 1.5 },
-                fontSize: { xs: '14px', sm: '16px' },
+                fontSize: { xs: "14px", sm: "16px" },
                 textTransform: "none",
                 borderRadius: "12px",
                 "&:hover": {
@@ -184,6 +184,7 @@ export default function ProductDetails({
                   price: product.price,
                   image: product.images?.[0],
                   quantity: 1,
+                  stock: product.stock ?? 0,
                 })
               }
             >
