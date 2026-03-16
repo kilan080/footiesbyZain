@@ -11,6 +11,7 @@ import {
   LocalShippingOutlined, PaymentOutlined, CheckCircleOutline,
   CreditCardOutlined, DeliveryDiningOutlined,
 } from "@mui/icons-material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useCart } from "@/cartContext/cartContext";
 import { api } from "@/lib/api";
 import toast from "react-hot-toast";
@@ -153,7 +154,13 @@ export default function CheckoutPage() {
 
           {/* LEFT — Step Content */}
           <Box sx={{ flex: 1 }}>
-
+            <Button
+              startIcon={<ArrowBackIcon />}
+              onClick={() => router.push("/")}
+              sx={{ mb: 2, textTransform: "none", color: "#666" }}
+            >
+              Continue Shopping
+            </Button>
             {/* STEP 1 — Delivery Info */}
             {activeStep === 0 && (
               <Paper sx={{ p: 3, borderRadius: 3, boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
@@ -287,6 +294,28 @@ export default function CheckoutPage() {
                   </Button>
                   <Button onClick={() => router.push("/profile")} sx={primaryBtnSx}>
                     View My Orders
+                  </Button>
+                </Box>
+
+                <Box sx={{ textAlign: "center", py: 4 }}>
+                  <Typography variant="h5" fontWeight={700} mb={1}>
+                    Order Placed Successfully! 🎉
+                  </Typography>
+                  <Typography color="text.secondary" mb={4}>
+                    Thank you for your order. We will get in touch with you shortly.
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    onClick={() => router.push("/")}
+                    sx={{
+                      borderRadius: 2, px: 4, py: 1.5,
+                      background: "#1976d2",
+                      "&:hover": { background: "#1565c0" },
+                      textTransform: "none",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Back to Home
                   </Button>
                 </Box>
               </Paper>

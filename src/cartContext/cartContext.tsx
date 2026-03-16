@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState } from "react";
+import toast from "react-hot-toast";
 
 type CartItem = {
   id: string;
@@ -8,6 +9,7 @@ type CartItem = {
   price: number;
   image: string;
   quantity: number;
+  stock: number;
 };
 
 type CartContextType = {
@@ -29,16 +31,24 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const addToCart = (item: CartItem) => {
     setCart((prev) => {
-      const found = prev.find((i) => i.id === item.id);
-      if (found) {
+      const existing = prev.find((i) => i.id === item.id); // ← remove the ()
+
+      if (existing) {
+        // check if adding more would exceed stock
+        if (item.stock !== undefined && existing.quantity >= item.stock) {
+          toast.error(`Only ${item.stock} item${item.stock === 1 ? "" : "s"} available in stock!`);
+          return prev;
+        }
+        // increase quantity
         return prev.map((i) =>
           i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
+
+      // new item — add to cart
       return [...prev, { ...item, quantity: 1 }];
     });
   };
-
   const removeFromCart = (id: string) => {
     setCart((prev) => prev.filter((i) => i.id !== id));
   };

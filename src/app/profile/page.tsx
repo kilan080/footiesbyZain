@@ -15,6 +15,7 @@ import { api } from "@/lib/api";
 import ShoppingBagOutlined from "@mui/icons-material/ShoppingBagOutlined";
 import Navbar from '@/app/components/navbar/navbar'
 import toast from "react-hot-toast";
+import useSWR from "swr";
 
 interface UserProfile {
   firstName: string;
@@ -34,8 +35,6 @@ type ActiveSection = "profile" | "password" | "orders";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState<ActiveSection>("profile");
   const [editMode, setEditMode] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -53,16 +52,11 @@ export default function ProfilePage() {
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      router.push("/user-login");
-      return;
-    }
-
-    api("/user/me")
-      .then((data) => {
-        setUser(data);
+  const { data, isLoading: loading, mutate } = useSWR(
+    "/user/me",
+    () => api("/user/me"),
+    {
+      onSuccess: (data) => {
         setForm({
           firstName: data.firstName || "",
           lastName: data.lastName || "",
@@ -70,12 +64,14 @@ export default function ProfilePage() {
           phone: data.phone || "",
           addresses: data.addresses || "",
         });
-      })
-      .catch(() => {
+      },
+      onError: () => {
         router.push("/user-login");
-      })
-      .finally(() => setLoading(false));
-  }, [router]);
+      }
+    }
+  );
+
+  const user = data;
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -85,16 +81,14 @@ export default function ProfilePage() {
     setPasswordForm({ ...passwordForm, [e.target.name]: e.target.value });
   };
 
-  const handleSaveProfile = async () => {
+    const handleSaveProfile = async () => {
     setSaving(true);
-    setError("");
-    setSuccess("");
     try {
       await api("/user/me", {
         method: "PUT",
         body: JSON.stringify(form),
       });
-      setUser({ ...user, ...form });
+      await mutate(); // ← refreshes cached profile data
       toast.success("Profile updated successfully!");
       setEditMode(false);
     } catch (err: unknown) {
