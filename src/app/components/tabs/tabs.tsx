@@ -2,7 +2,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
+import Image from "next/image";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Button from "@mui/material/Button";
@@ -189,14 +189,25 @@ const Tabs = () => {
                   href={`/products/${item._id}`}
                   style={{ textDecoration: "none" }}
                 >
-                  <CardMedia
-                    component="img"
-                    height="180"
-                    loading="lazy"
-                    image={item.images?.[0]}
-                    alt={item.name}
-                    sx={{ objectFit: "cover", height: "190px" }}
-                  />
+                  <Box
+                    sx={{
+                      position: "relative",
+                      height: "190px",
+                      width: "100%",
+                    }}
+                  >
+                    <Image
+                      src={item.images?.[0]}
+                      alt={item.name}
+                      fill
+                      sizes="(max-width: 600px) 50vw, 260px"
+                      style={{
+                        objectFit: "cover",
+                        borderRadius: "12px 12px 0 0",
+                      }}
+                      loading="lazy"
+                    />
+                  </Box>
                 </Link>
                 <CardContent sx={{ marginTop: "0px", marginBottom: "0px" }}>
                   <Typography

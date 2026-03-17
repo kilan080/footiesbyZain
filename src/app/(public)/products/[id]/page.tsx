@@ -91,6 +91,7 @@ export default function ProductDetails({
             <Image
               src={product.images?.[0]}
               alt={product.name}
+              loading="lazy"
               fill
               style={{
                 objectFit: "cover",

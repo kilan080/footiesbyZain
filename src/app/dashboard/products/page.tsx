@@ -12,7 +12,6 @@ import {
   Paper,
   IconButton,
   Box,
-
 } from "@mui/material";
 import {
   Dialog,
@@ -34,7 +33,7 @@ type Product = {
   category: string;
   price: number;
   images: string[];
-}
+};
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -43,12 +42,10 @@ export default function ProductsPage() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const data = await api("/admin/products");
-        
 
         console.log("Parsed Data:", data);
 
@@ -71,9 +68,7 @@ export default function ProductsPage() {
         method: "DELETE",
       });
 
-      setProducts((prev) =>
-        prev.filter((p) => p._id !== selectedProduct._id)
-      );
+      setProducts((prev) => prev.filter((p) => p._id !== selectedProduct._id));
 
       setSnackbarOpen(true);
     } catch (error) {
@@ -83,7 +78,6 @@ export default function ProductsPage() {
       setSelectedProduct(null);
     }
   };
-
 
   return (
     <Box>
@@ -107,115 +101,131 @@ export default function ProductsPage() {
       </Box>
 
       {/* Table placeholder */}
-        <Box
-          sx={{
-            backgroundColor: "#fff",
-            borderRadius: 2,
-            p: 3,
-            boxShadow: 1,
-          }}
-        >
-          {loading ? (
-            <CircularProgress />
-            ) : products.length === 0 ? (
-              <Typography>No products found</Typography>
-            ) : (
-            <TableContainer component={Paper}>
-              <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell><strong>Image</strong></TableCell>
-                      <TableCell><strong>Name</strong></TableCell>
-                      <TableCell><strong>Category</strong></TableCell>
-                      <TableCell><strong>Price</strong></TableCell>
-                      <TableCell><strong>Actions</strong></TableCell>
-                    </TableRow>
-                  </TableHead>
+      <Box
+        sx={{
+          backgroundColor: "#fff",
+          borderRadius: 2,
+          p: 3,
+          boxShadow: 1,
+        }}
+      >
+        {loading ? (
+          <CircularProgress />
+        ) : products.length === 0 ? (
+          <Typography>No products found</Typography>
+        ) : (
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <strong>Image</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Name</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Category</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Price</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Actions</strong>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
 
-                  <TableBody>
-                    {products.map((product: Product) => (
-                      <TableRow key={product._id} hover>
-                        
-                        {/* Image Cell */}
-                        <TableCell>
-                          <Box
-                            sx={{
-                              width: 50,
-                              height: 50,
-                              borderRadius: 1,
-                              overflow: "hidden",
-                              backgroundColor: "#f5f5f5",
-                            }}
-                          >
-                            <Box
-                              component="img"
-                              src={product.images?.[0]}
-                              alt={product.name}
-                              sx={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                              }}
-                            />
-                          </Box>
-                        </TableCell>
-                        <TableCell>
-                          {product.name}
-                        </TableCell>
-                        <TableCell>
-                          {product.category}
-                        </TableCell>
-                        <TableCell>
-                          ₦{product.price}
-                        </TableCell>
-                        <TableCell>
-                          <IconButton
-                            color="primary"
-                            component={Link}
-                            href={`/dashboard/products/${product._id}`}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            onClick={() => {
-                              setSelectedProduct(product);
-                              setOpenDialog(true);
-                            }}
-                            color="error"
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-              </Table>
-            </TableContainer>
-          )}
-        </Box>
-        <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-          <DialogTitle> <DeleteIcon /></DialogTitle>
-          <DialogContent>
-            Are you sure you want to delete{" "}
-            <strong>{selectedProduct?.name}</strong>?
-          </DialogContent>
-          <DialogActions>
-            <Button sx={{ '&:hover': { backgroundColor: 'green' } }} onClick={() => setOpenDialog(false)}>Cancel</Button>
-            <Button color="error" onClick={confirmDelete}>
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
+              <TableBody>
+                {products.map((product: Product) => (
+                  <TableRow key={product._id} hover>
+                    {/* Image Cell */}
+                    <TableCell>
+                      <Box
+                        sx={{
+                          width: 50,
+                          height: 50,
+                          borderRadius: 1,
+                          overflow: "hidden",
+                          backgroundColor: "#f5f5f5",
+                        }}
+                      >
+                        <Box
+                          component="img"
+                          src={product.images?.[0]}
+                          alt={product.name}
+                          loading="lazy"
+                          sx={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </Box>
+                    </TableCell>
+                    <TableCell>{product.name}</TableCell>
+                    <TableCell>{product.category}</TableCell>
+                    <TableCell>₦{product.price}</TableCell>
+                    <TableCell>
+                      <IconButton
+                        color="primary"
+                        component={Link}
+                        href={`/dashboard/products/${product._id}`}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => {
+                          setSelectedProduct(product);
+                          setOpenDialog(true);
+                        }}
+                        color="error"
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </Box>
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <DialogTitle>
+          {" "}
+          <DeleteIcon />
+        </DialogTitle>
+        <DialogContent>
+          Are you sure you want to delete{" "}
+          <strong>{selectedProduct?.name}</strong>?
+        </DialogContent>
+        <DialogActions>
+          <Button
+            sx={{ "&:hover": { backgroundColor: "green" } }}
+            onClick={() => setOpenDialog(false)}
+          >
+            Cancel
+          </Button>
+          <Button color="error" onClick={confirmDelete}>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-        <Snackbar
-          open={snackbarOpen}
-          autoHideDuration={3000}
-          onClose={() => setSnackbarOpen(false)}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert
+          sx={{ alignContent: "center" }}
+          severity="success"
+          variant="filled"
         >
-          <Alert sx={{ alignContent: 'center'}} severity="success" variant="filled">
-            Product deleted successfully
-          </Alert>
-        </Snackbar>
+          Product deleted successfully
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

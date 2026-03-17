@@ -1,35 +1,39 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import Avatar from '@mui/material/Avatar';
-import Image from 'next/image';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import Avatar from "@mui/material/Avatar";
+import Image from "next/image";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import CartDrawer from '../cartDrawer/cartDrawer';
+import CartDrawer from "../cartDrawer/cartDrawer";
 import { useCart } from "../../../cartContext/cartContext";
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { api } from '@/lib/api';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { api } from "@/lib/api";
 
 const pages = [
-  { label: 'Slide', href: '/?category=slides' },
-  { label: 'Shoe', href: '/?category=shoes' },
-  { label: 'Testimonials', href: '/testimonials' },
-  { label: 'Contact', href: '/contact' },
+  { label: "Slide", href: "/?category=slides" },
+  { label: "Shoe", href: "/?category=shoes" },
+  { label: "Testimonials", href: "/testimonials" },
+  { label: "Contact", href: "/contact" },
 ];
 
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null,
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null,
+  );
   const [firstName, setFirstName] = React.useState<string | null>(null);
   const router = useRouter();
 
@@ -42,7 +46,7 @@ function ResponsiveAppBar() {
           .then((data) => {
             if (data.firstName) setFirstName(data.firstName);
           })
-        .catch(() => null);
+          .catch(() => null);
       } catch {
         // null
       }
@@ -79,19 +83,25 @@ function ResponsiveAppBar() {
               href="/"
               sx={{
                 mr: 2,
-                display: { xs: 'none', md: 'flex' },
-                fontFamily: 'monospace',
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
                 fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
               }}
             >
-              <Image src="/image.png" alt="Logo" width={70} height={50} />
+              <Image
+                src="/image.png"
+                priority
+                alt="Logo"
+                width={70}
+                height={50}
+              />
             </Typography>
 
             {/* Mobile Menu Icon */}
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
                 aria-label="menu"
@@ -105,12 +115,12 @@ function ResponsiveAppBar() {
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorElNav}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
                 keepMounted
-                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
-                sx={{ display: { xs: 'block', md: 'none' } }}
+                sx={{ display: { xs: "block", md: "none" } }}
               >
                 {pages.map((page) => (
                   <MenuItem
@@ -119,7 +129,9 @@ function ResponsiveAppBar() {
                     component={Link}
                     href={page.href}
                   >
-                    <Typography sx={{ textAlign: 'center' }}>{page.label}</Typography>
+                    <Typography sx={{ textAlign: "center" }}>
+                      {page.label}
+                    </Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -133,20 +145,26 @@ function ResponsiveAppBar() {
               href="/"
               sx={{
                 mr: 2,
-                display: { xs: 'flex', md: 'none' },
+                display: { xs: "flex", md: "none" },
                 flexGrow: 1,
-                fontFamily: 'monospace',
+                fontFamily: "monospace",
                 fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
               }}
             >
-              <Image src="/image.png" alt="Logo" width={50} height={50} />
+              <Image
+                src="/image.png"
+                priority
+                alt="Logo"
+                width={50}
+                height={50}
+              />
             </Typography>
 
             {/* Desktop Links */}
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
                 <Button
                   key={page.label}
@@ -154,7 +172,7 @@ function ResponsiveAppBar() {
                   component={Link}
                   href={page.href}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  sx={{ my: 2, color: "white", display: "block" }}
                 >
                   {page.label}
                 </Button>
@@ -162,22 +180,48 @@ function ResponsiveAppBar() {
             </Box>
 
             {/* Cart Icon */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column-reverse', gap: '0px'}}>
-                <ShoppingCartIcon onClick={toggleCart} sx={{ cursor: 'pointer' }} />
-                {cartCount > 0 && (<span style={{ marginLeft: 4 }}>{cartCount}</span>)}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column-reverse",
+                  gap: "0px",
+                }}
+              >
+                <ShoppingCartIcon
+                  onClick={toggleCart}
+                  sx={{ cursor: "pointer" }}
+                />
+                {cartCount > 0 && (
+                  <span style={{ marginLeft: 4 }}>{cartCount}</span>
+                )}
               </Box>
 
               {firstName ? (
                 <>
                   <Box
                     onClick={(e) => setAnchorElUser(e.currentTarget)}
-                    sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      cursor: "pointer",
+                    }}
                   >
-                    <Avatar sx={{ width: 32, height: 32, bgcolor: '#2563eb', fontSize: 14, fontWeight: 700 }}>
+                    <Avatar
+                      sx={{
+                        width: 32,
+                        height: 32,
+                        bgcolor: "#2563eb",
+                        fontSize: 14,
+                        fontWeight: 700,
+                      }}
+                    >
                       {firstName.charAt(0).toUpperCase()}
                     </Avatar>
-                    <Typography sx={{ color: 'white', fontSize: 14, fontWeight: 500 }}>
+                    <Typography
+                      sx={{ color: "white", fontSize: 14, fontWeight: 500 }}
+                    >
                       {firstName}
                     </Typography>
                   </Box>
@@ -187,22 +231,29 @@ function ResponsiveAppBar() {
                     anchorEl={anchorElUser}
                     open={Boolean(anchorElUser)}
                     onClose={() => setAnchorElUser(null)}
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                    transformOrigin={{ vertical: "top", horizontal: "right" }}
                   >
-                    <MenuItem component={Link} href="/profile" onClick={() => setAnchorElUser(null)}>
+                    <MenuItem
+                      component={Link}
+                      href="/profile"
+                      onClick={() => setAnchorElUser(null)}
+                    >
                       My Profile
                     </MenuItem>
-                    <MenuItem onClick={handleLogout}>
-                      Logout
-                    </MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </>
               ) : (
                 <Button
                   component={Link}
                   href="/user-login"
-                  sx={{ color: 'white', fontSize: 13, textTransform: 'none', fontWeight: 500 }}
+                  sx={{
+                    color: "white",
+                    fontSize: 13,
+                    textTransform: "none",
+                    fontWeight: 500,
+                  }}
                 >
                   Sign In
                 </Button>
