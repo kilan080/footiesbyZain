@@ -1,20 +1,18 @@
-'use client';
+"use client";
 
 import dynamic from "next/dynamic";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 
 const ResponsiveAppBar = dynamic(() => import("./navbar"), {
   ssr: false,
   loading: () => (
-    <Box sx={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      right: 0,
-      height: "64px",
-      backgroundColor: "#1976d2",
-      zIndex: 1100,
-    }} />
+    <AppBar position="fixed">
+      <Toolbar>
+        <Box sx={{ width: 70, height: 50 }} /> {/* exact same size as logo */}
+      </Toolbar>
+    </AppBar>
   ),
 });
 
