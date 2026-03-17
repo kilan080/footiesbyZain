@@ -91,7 +91,8 @@ const FullScreenSlider: React.FC<ImageSliderProps> = ({
               src={image}
               alt={`Slide ${index + 1}`}
               fill
-              priority
+              priority={index === 0}
+              loading={index === 0 ? "eager" : "lazy"}
               style={{
                 objectFit: "cover",
                 objectPosition: "center",
