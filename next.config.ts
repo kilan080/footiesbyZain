@@ -19,6 +19,12 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "seeandwear.com" },
       { protocol: "https", hostname: "img.kwcdn.com" },
       { protocol: "https", hostname: "tellme.ng" },
+      { protocol: "https", hostname: "encrypted-tbn0.gstatic.com" },
+      { protocol: "https", hostname: "www.zannimadeinitaly.com" },
+      { protocol: "https", hostname: "s.alicdn.com" },
+      { protocol: "https", hostname: "sc04.alicdn.com" },
+      { protocol: "https", hostname: "cdn.rehmie.com.ng" },
+      { protocol: "https", hostname: "www.adelisaandco.com" },
     ],
 
 
