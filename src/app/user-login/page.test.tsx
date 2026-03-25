@@ -94,13 +94,13 @@ describe("LoginPage", () => {
       target: { name: "email", value: "test@test.com" },
     });
     fireEvent.change(screen.getByPlaceholderText("••••••••"), {
-      target: { name: "password", value: "password123" },
+      target: { name: "password", value: "password000" },
     });
     fireEvent.click(screen.getByRole("button", { name: /sign in/i }));
 
     expect(await screen.findByRole("progressbar")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /sign in/i, hidden: true }),
+      screen.getByRole("button", { name: /Sign in/i, hidden: true }),
     ).toBeDisabled();
   });
 
