@@ -24,12 +24,15 @@ const vollkorn = Vollkorn({
 
 export const metadata: Metadata = {
   title: {
-    default: "FOOTIES BY ZAYN",
+    default: "FOOTIES BY ZAIN",
     template: "%s | Footies by Zain",
   },
 
   description:
     "Shop Premium handmade footwear for every step you take, Fast delivery across Nigeria.",
+  icons: {
+    icon: "/favicon-v2.ico",
+  },
   keywords: [
     "footwear",
     "shoes",
