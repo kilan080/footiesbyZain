@@ -30,6 +30,28 @@ const nextConfig: NextConfig = {
 
     qualities: [75],
   },
+
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.paystack.co https://checkout.paystack.com",
+              "frame-src 'self' https://checkout.paystack.com",
+              "img-src 'self' data: blob: https:",
+              "style-src 'self' 'unsafe-inline' https://checkout.paystack.com",
+              "connect-src 'self' http://localhost:4000 https://api.paystack.co https://checkout.paystack.com",
+              "font-src 'self' https://checkout.paystack.com",
+            ].join("; "),
+          },
+        ],
+      },
+    ];
+  },
 };
 
 

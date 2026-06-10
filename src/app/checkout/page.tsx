@@ -16,8 +16,47 @@ import { useCart } from "@/cartContext/cartContext";
 import { api } from "@/lib/api";
 import toast from "react-hot-toast";
 
+declare global {
+  interface Window {
+    PaystackPop: {
+      setup: (options: PaystackOptions) => { openIframe: () => void };
+    };
+  }
+}
+
+interface PaystackOptions {
+  key: string;
+  email: string;
+  amount: number; // in kobo
+  currency: string;
+  ref: string;
+  callback: (response: { reference: string }) => void;
+  onClose: () => void;
+}
+
+function usePaystackScript() {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (document.getElementById("paystack-script")) {
+      setLoaded(true);
+      return;
+    }
+    const script = document.createElement("script");
+    script.id = "paystack-script";
+    script.src = "https://js.paystack.co/v1/inline.js";
+    script.async = true;
+    script.onload = () => setLoaded(true);
+    document.body.appendChild(script);
+  }, []);
+
+  return loaded;
+}
+
 const DELIVERY_FEE = 2000;
 const steps = ["Delivery Info", "Payment", "Confirm"];
+
+const PAYSTACK_TEST_KEY = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY ?? "";
 
 interface DeliveryForm {
   firstName: string;
@@ -37,13 +76,13 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [orderId, setOrderId] = useState("");
+  const paystackReady = usePaystackScript();
 
   const [delivery, setDelivery] = useState<DeliveryForm>({
     firstName: "", lastName: "", email: "",
     phone: "", address: "", city: "", state: "",
   });
 
-  // Redirect if not logged in or cart is empty
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -54,7 +93,6 @@ export default function CheckoutPage() {
       router.push("/");
     }
 
-    // Pre-fill delivery info from profile
     api("/user/me")
       .then((data) => {
         setDelivery((prev) => ({
@@ -67,7 +105,7 @@ export default function CheckoutPage() {
         }));
       })
       .catch(() => null);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -97,7 +135,7 @@ export default function CheckoutPage() {
     setActiveStep((prev) => prev - 1);
   };
 
-  const handlePlaceOrder = async () => {
+  const submitOrder = async (paymentReference?: string) => {
     setLoading(true);
     setError("");
     try {
@@ -114,6 +152,8 @@ export default function CheckoutPage() {
         total,
         deliveryInfo: delivery,
         paymentMethod,
+        paymentReference: paymentReference ?? null,
+        paymentStatus: paymentReference ? "paid" : "pending",
       };
 
       const data = await api("/orders", {
@@ -124,12 +164,48 @@ export default function CheckoutPage() {
       setOrderId(data.order._id);
       clearCart();
       toast.success("Order placed successfully!");
-      setActiveStep(2); 
+      setActiveStep(2);
     } catch (err: unknown) {
-      if (err instanceof Error) toast.error(err.message);
-      else toast.error(err instanceof Error ? err.message : "Failed to place order.");
+      const message = err instanceof Error ? err.message : "Failed to place order.";
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePaystackPayment = () => {
+    if (!paystackReady || !window.PaystackPop) {
+      toast.error("Payment system is still loading. Please try again.");
+      return;
+    }
+
+    const ref = `order_${Date.now()}_${Math.floor(Math.random() * 1000000)}`;
+
+    const handler = window.PaystackPop.setup({
+      key: PAYSTACK_TEST_KEY,
+      email: delivery.email,
+      amount: total * 100,
+      currency: "NGN",
+      ref,
+      callback: (response) => {
+        console.log("Paystack callback response:", response);
+        toast.success("Payment successful! Placing your order...");
+        void submitOrder(response.reference);
+      },
+      onClose: () => {
+        toast.error("Payment cancelled. Your order was not placed.");
+      },
+    });
+
+    handler.openIframe();
+  };
+
+  const handlePlaceOrder = () => {
+    if (paymentMethod === "card") {
+      handlePaystackPayment();
+    } else {
+      submitOrder();
     }
   };
 
@@ -161,6 +237,7 @@ export default function CheckoutPage() {
             >
               Continue Shopping
             </Button>
+
             {/* STEP 1 — Delivery Info */}
             {activeStep === 0 && (
               <Paper sx={{ p: 3, borderRadius: 3, boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
@@ -216,16 +293,25 @@ export default function CheckoutPage() {
                   <Typography sx={{ fontWeight: 700, fontSize: 16 }}>Payment Method</Typography>
                 </Box>
 
+                {/* Test mode banner */}
+                {/* <Alert severity="info" sx={{ mb: 2, borderRadius: 2, fontSize: 12 }}>
+                  <strong>Test Mode:</strong> Use Paystack test card <strong>4084 0840 8408 4081</strong>,
+                  any future expiry, CVV <strong>408</strong>, PIN <strong>0000</strong>, OTP <strong>123456</strong>.
+                </Alert> */}
+
                 {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
 
                 <RadioGroup value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
-                  {/* Card */}
-                  <Box onClick={() => setPaymentMethod("card")} sx={{
-                    border: `2px solid ${paymentMethod === "card" ? "#2563eb" : "#e5e5e5"}`,
-                    borderRadius: 2, p: 2, mb: 2, cursor: "pointer",
-                    background: paymentMethod === "card" ? "#eff6ff" : "#fff",
-                    transition: "all 0.2s",
-                  }}>
+                  {/* Card via Paystack */}
+                  <Box
+                    onClick={() => setPaymentMethod("card")}
+                    sx={{
+                      border: `2px solid ${paymentMethod === "card" ? "#2563eb" : "#e5e5e5"}`,
+                      borderRadius: 2, p: 2, mb: 2, cursor: "pointer",
+                      background: paymentMethod === "card" ? "#eff6ff" : "#fff",
+                      transition: "all 0.2s",
+                    }}
+                  >
                     <FormControlLabel
                       value="card"
                       control={<Radio sx={{ color: "#2563eb", "&.Mui-checked": { color: "#2563eb" } }} />}
@@ -233,8 +319,19 @@ export default function CheckoutPage() {
                         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                           <CreditCardOutlined sx={{ color: "#2563eb" }} />
                           <Box>
-                            <Typography sx={{ fontWeight: 600, fontSize: 14 }}>Pay with Card</Typography>
-                            <Typography sx={{ fontSize: 12, color: "#888" }}>Visa, Mastercard (simulated)</Typography>
+                            <Typography sx={{ fontWeight: 600, fontSize: 14 }}>
+                              Pay with Card
+                              <Box component="span" sx={{
+                                ml: 1, fontSize: 11, fontWeight: 700,
+                                background: "#dcfce7", color: "#16a34a",
+                                px: 1, py: 0.3, borderRadius: 1,
+                              }}>
+                                via Paystack
+                              </Box>
+                            </Typography>
+                            <Typography sx={{ fontSize: 12, color: "#888" }}>
+                              Visa, Mastercard, Verve — secured by Paystack
+                            </Typography>
                           </Box>
                         </Box>
                       }
@@ -242,12 +339,15 @@ export default function CheckoutPage() {
                   </Box>
 
                   {/* Cash on Delivery */}
-                  <Box onClick={() => setPaymentMethod("cash on delivery")} sx={{
-                    border: `2px solid ${paymentMethod === "cash on delivery" ? "#2563eb" : "#e5e5e5"}`,
-                    borderRadius: 2, p: 2, cursor: "pointer",
-                    background: paymentMethod === "cash on delivery" ? "#eff6ff" : "#fff",
-                    transition: "all 0.2s",
-                  }}>
+                  <Box
+                    onClick={() => setPaymentMethod("cash on delivery")}
+                    sx={{
+                      border: `2px solid ${paymentMethod === "cash on delivery" ? "#2563eb" : "#e5e5e5"}`,
+                      borderRadius: 2, p: 2, cursor: "pointer",
+                      background: paymentMethod === "cash on delivery" ? "#eff6ff" : "#fff",
+                      transition: "all 0.2s",
+                    }}
+                  >
                     <FormControlLabel
                       value="cash on delivery"
                       control={<Radio sx={{ color: "#2563eb", "&.Mui-checked": { color: "#2563eb" } }} />}
@@ -266,8 +366,17 @@ export default function CheckoutPage() {
 
                 <Box sx={{ display: "flex", gap: 2, mt: 3 }}>
                   <Button onClick={handleBack} sx={secondaryBtnSx}>Back</Button>
-                  <Button onClick={handlePlaceOrder} disabled={loading} sx={primaryBtnSx}>
-                    {loading ? <CircularProgress size={20} sx={{ color: "#fff" }} /> : "Place Order"}
+                  <Button
+                    onClick={handlePlaceOrder}
+                    disabled={loading || (paymentMethod === "card" && !paystackReady)}
+                    sx={primaryBtnSx}
+                  >
+                    {loading
+                      ? <CircularProgress size={20} sx={{ color: "#fff" }} />
+                      : paymentMethod === "card"
+                        ? `Pay ₦${total.toLocaleString()}`
+                        : "Place Order"
+                    }
                   </Button>
                 </Box>
               </Paper>
@@ -294,28 +403,6 @@ export default function CheckoutPage() {
                   </Button>
                   <Button onClick={() => router.push("/profile")} sx={primaryBtnSx}>
                     View My Orders
-                  </Button>
-                </Box>
-
-                <Box sx={{ textAlign: "center", py: 4 }}>
-                  <Typography variant="h5" fontWeight={700} mb={1}>
-                    Order Placed Successfully! 🎉
-                  </Typography>
-                  <Typography color="text.secondary" mb={4}>
-                    Thank you for your order. We will get in touch with you shortly.
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    onClick={() => router.push("/")}
-                    sx={{
-                      borderRadius: 2, px: 4, py: 1.5,
-                      background: "#1976d2",
-                      "&:hover": { background: "#1565c0" },
-                      textTransform: "none",
-                      fontWeight: 600,
-                    }}
-                  >
-                    Back to Home
                   </Button>
                 </Box>
               </Paper>
