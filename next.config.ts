@@ -44,7 +44,7 @@ const nextConfig: NextConfig = {
               "frame-src 'self' https://checkout.paystack.com",
               "img-src 'self' data: blob: https:",
               "style-src 'self' 'unsafe-inline' https://checkout.paystack.com",
-              "connect-src 'self' http://footiesbyzain.vercel.app https://api.paystack.co https://checkout.paystack.com",
+              "connect-src 'self' http://footies-backend.vercel.app https://api.paystack.co https://checkout.paystack.com",
               "font-src 'self' https://checkout.paystack.com",
             ].join("; "),
           },
