@@ -36,9 +36,9 @@ interface Order {
 }
 
 const statusColors: Record<string, { bg: string; color: string }> = {
-  pending:   { bg: "#fef9c3", color: "#854d0e" },
+  pending: { bg: "#fef9c3", color: "#854d0e" },
   confirmed: { bg: "#dbeafe", color: "#1e40af" },
-  shipped:   { bg: "#e0f2fe", color: "#0369a1" },
+  shipped: { bg: "#e0f2fe", color: "#0369a1" },
   delivered: { bg: "#dcfce7", color: "#166534" },
   cancelled: { bg: "#fee2e2", color: "#991b1b" },
 };
@@ -60,7 +60,6 @@ function OrderRow({ order, onStatusChange }: { order: Order; onStatusChange: (id
   return (
     <>
       <TableRow sx={{ "& > *": { borderBottom: "unset" }, "&:hover": { background: "#fafafa" } }}>
-        {/* Expand toggle */}
         <TableCell>
           <IconButton size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -327,4 +326,4 @@ export default function OrdersDashboard() {
   );
 }
 
-const thSx = { fontWeight: 700, fontSize: 13, color: "#555" };
+const thSx = { fontWeight: 600, fontSize: 13, color: "#555" };
